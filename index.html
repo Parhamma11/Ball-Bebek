@@ -57,15 +57,8 @@
       box-shadow:none;
     }
 
-    .grid{
-      display:grid;gap:14px;
-      grid-template-columns: 1.2fr .8fr;
-      align-items:start;
-    }
-    @media (max-width:900px){
-      .grid{grid-template-columns:1fr}
-      .pillrow{justify-content:flex-start}
-    }
+    .grid{display:grid;gap:14px;grid-template-columns: 1.2fr .8fr;align-items:start}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}.pillrow{justify-content:flex-start}}
     .card{
       background: var(--card);
       border:1px solid var(--stroke);
@@ -108,28 +101,18 @@
       font-size:14px;
     }
     .input::placeholder{color:rgba(255,255,255,.45)}
-    .msg{
-      margin-top:10px;
-      color:var(--muted);
-      line-height:1.55;
-      font-size:13px;
-      min-height:22px;
-    }
+    .msg{margin-top:10px;color:var(--muted);line-height:1.55;font-size:13px;min-height:22px}
 
     /* Memory game */
     .board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
     @media (max-width:640px){ .board{grid-template-columns:repeat(2,1fr)} }
     .tile{
-      position:relative;
-      height:86px;
-      border-radius:18px;
+      position:relative;height:86px;border-radius:18px;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.18);
-      overflow:hidden;
-      cursor:pointer;
+      overflow:hidden; cursor:pointer;
       display:grid;place-items:center;
-      font-size:30px;
-      transition: transform .08s;
+      font-size:30px; transition: transform .08s;
     }
     .tile:active{transform:scale(.99)}
     .tile .cover{
@@ -143,10 +126,10 @@
     .tile.revealed .cover{opacity:0;pointer-events:none}
     .tile.matched{outline:2px solid rgba(255,214,166,.35)}
 
-    /* Heart catch */
+    /* Heart catch (FIXED + EASIER) */
     .arena{
       position:relative;
-      height:320px;
+      height:340px;
       border-radius:20px;
       border:1px solid rgba(255,255,255,.14);
       background: radial-gradient(500px 200px at 50% 0%, rgba(255,77,141,.18), transparent 60%),
@@ -157,10 +140,12 @@
     }
     .heart{
       position:absolute;
-      font-size:28px;
+      font-size:44px; /* bigger */
       filter: drop-shadow(0 10px 16px rgba(255,77,141,.25));
       user-select:none;
       cursor:pointer;
+      padding:6px; /* easier to tap */
+      line-height:1;
     }
     .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
     .stat{padding:8px 10px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);font-size:12px;color:var(--muted)}
@@ -209,14 +194,11 @@
     <div class="grid">
       <div class="hero">
         <h2>Minik bir oyun… ama hisler gerçek 💗</h2>
-        <p>
-          İzgi, bu sayfayı açtıysan… bugün küçük bir maceraya giriyorsun.
-          3 aşamayı geçince finalde sürpriz var.
-        </p>
+        <p>İzgi, bu sayfayı açtıysan… bugün küçük bir maceraya giriyorsun. 3 aşamayı geçince finalde sürpriz var.</p>
         <div class="steps">
-          <div class="step"><b>1) Şifre</b><span>Tarih ya da tek kelimeyi bul 😉</span></div>
+          <div class="step"><b>1) Şifre</b><span>Gizli bir anahtar 💌</span></div>
           <div class="step"><b>2) Anılar</b><span>4 çifti eşleştir</span></div>
-          <div class="step"><b>3) Kalp Yakala</b><span>Kalpleri topla, final açılıyor 💘</span></div>
+          <div class="step"><b>3) Kalp Yakala</b><span>Kolay mod 💘</span></div>
         </div>
       </div>
 
@@ -228,24 +210,21 @@
         <div class="msg" id="statusMsg"></div>
         <div class="row" style="margin-top:12px">
           <button class="btn secondary" id="resetBtn">Sıfırla</button>
-          <button class="btn secondary" id="skipBtn" title="Sadece test için">Test: Son Aşamaya Git</button>
         </div>
-        <div class="tiny">
-          Not: Telefonda müzik otomatik başlamaz; “Başla” ile başlatıyoruz.
-        </div>
+        <div class="tiny">Not: Telefonda müzik otomatik başlamaz; “Başla” ile başlatıyoruz.</div>
       </div>
     </div>
 
-    <!-- Stage 1 -->
+    <!-- Stage 1 (no hints/answers shown) -->
     <div class="card" id="stage1" style="margin-top:14px; display:none">
       <div class="stageTitle">
-        <h3>1) Şifreyi Bul 🔐</h3>
-        <div class="hint">İpucu: 2 Şubat 2025 + bir şehir (kayak) 😉</div>
+        <h3>1) Şifreyi Gir 🔐</h3>
+        <div class="hint">Sadece senin bileceğin bir şey 💌</div>
       </div>
-      <div class="msg">İki seçenekten biri yeter: <b>tarih</b> (02022025 / 02/02/2025) veya <b>bansko</b> yaz 💌</div>
+      <div class="msg">Şifreyi yaz ve devam et 💘</div>
       <div class="row" style="margin-top:12px">
-        <input class="input" id="passInput" placeholder="Şifreyi yaz..." />
-        <button class="btn" id="passBtn">Onayla 💌</button>
+        <input class="input" id="passInput" placeholder="Şifre..." />
+        <button class="btn" id="passBtn">Onayla</button>
       </div>
       <div class="msg" id="passMsg"></div>
     </div>
@@ -256,21 +235,21 @@
         <h3>2) Anıları Eşleştir 🧩</h3>
         <div class="hint"><span id="matchCount">0</span>/4 bulundu</div>
       </div>
-      <div class="msg">Bansko ⛷️ • Binicilik 🏇 • Sinema 🍿 • Roma LUISS 🇮🇹🎓</div>
+      <div class="msg">Minik dünyanız: Bansko ⛷️ • Binicilik 🏇 • Sinema 🍿 • Roma LUISS 🇮🇹🎓</div>
       <div class="board" id="board"></div>
       <div class="msg" id="boardMsg"></div>
     </div>
 
-    <!-- Stage 3 -->
+    <!-- Stage 3 (easier) -->
     <div class="card" id="stage3" style="margin-top:14px; display:none">
       <div class="stageTitle">
         <h3>3) Kalp Yakala 💖</h3>
-        <div class="hint">12 saniyede <b>14</b> kalp</div>
+        <div class="hint">20 saniyede <b>8</b> kalp</div>
       </div>
       <div class="arena" id="arena"></div>
       <div class="stats">
-        <div class="stat">Süre: <b id="timeLeft">12</b>s</div>
-        <div class="stat">Toplanan: <b id="caught">0</b>/14</div>
+        <div class="stat">Süre: <b id="timeLeft">20</b>s</div>
+        <div class="stat">Toplanan: <b id="caught">0</b>/8</div>
       </div>
       <div class="row" style="margin-top:10px">
         <button class="btn" id="catchStart">Başlat 🚀</button>
@@ -290,24 +269,19 @@
         </div>
       </div>
       <div class="type" id="type"></div>
-      <div class="tiny">
-        Şarkı eklemek için: repoya <b>song.mp3</b> yükle (root) ve müzik butonuyla aç. (Telefon kuralı.)
-      </div>
+      <div class="tiny">Şarkı: repoya <b>song.mp3</b> yüklersen (root), Başla’ya basınca çalar.</div>
     </div>
   </div>
 
-  <!-- Music: Upload song.mp3 into repo root -->
   <audio id="bgm" loop>
     <source src="song.mp3" type="audio/mpeg" />
   </audio>
 
 <script>
 (() => {
-  // ===== Personalization =====
   const GIRL_NAME = "İzgi";
-  const MEET_DATE_TEXT = "2 Şubat 2025";
 
-  // Şifre: tarih veya "bansko"
+  // Gizli şifreler (sayfada yazmıyor)
   const MEET_PASSWORDS = [
     "02022025","02/02/2025","2/2/2025","2 şubat 2025","2 subat 2025","02.02.2025","2.2.2025",
     "bansko", "bansko kayak merkezi"
@@ -335,42 +309,42 @@ Sen başarınca ben de mutlu oluyorum. Hep yanındayım. 🇮🇹💘
 Sevgililer günün kutlu olsun.
 İyi ki varsın. 💘`;
 
-  // ===== Elements =====
-  const startBtn = document.getElementById("startBtn");
-  const resetBtn = document.getElementById("resetBtn");
-  const skipBtn  = document.getElementById("skipBtn");
-  const musicBtn = document.getElementById("musicBtn");
+  const $ = (id) => document.getElementById(id);
 
-  const stagePill = document.getElementById("stagePill");
-  const statusHint = document.getElementById("statusHint");
-  const statusMsg = document.getElementById("statusMsg");
+  const startBtn = $("startBtn");
+  const resetBtn = $("resetBtn");
+  const musicBtn = $("musicBtn");
 
-  const s1 = document.getElementById("stage1");
-  const s2 = document.getElementById("stage2");
-  const s3 = document.getElementById("stage3");
+  const stagePill = $("stagePill");
+  const statusHint = $("statusHint");
+  const statusMsg = $("statusMsg");
 
-  const passInput = document.getElementById("passInput");
-  const passBtn = document.getElementById("passBtn");
-  const passMsg = document.getElementById("passMsg");
+  const s1 = $("stage1");
+  const s2 = $("stage2");
+  const s3 = $("stage3");
 
-  const board = document.getElementById("board");
-  const boardMsg = document.getElementById("boardMsg");
-  const matchCount = document.getElementById("matchCount");
+  const passInput = $("passInput");
+  const passBtn = $("passBtn");
+  const passMsg = $("passMsg");
 
-  const arena = document.getElementById("arena");
-  const catchStart = document.getElementById("catchStart");
-  const caughtEl = document.getElementById("caught");
-  const timeLeftEl = document.getElementById("timeLeft");
-  const catchMsg = document.getElementById("catchMsg");
+  const board = $("board");
+  const boardMsg = $("boardMsg");
+  const matchCount = $("matchCount");
 
-  const modal = document.getElementById("modal");
-  const closeBtn = document.getElementById("closeBtn");
-  const againBtn = document.getElementById("againBtn");
-  const typeEl = document.getElementById("type");
+  const arena = $("arena");
+  const catchStart = $("catchStart");
+  const caughtEl = $("caught");
+  const timeLeftEl = $("timeLeft");
+  const catchMsg = $("catchMsg");
 
-  const bgm = document.getElementById("bgm");
+  const modal = $("modal");
+  const closeBtn = $("closeBtn");
+  const againBtn = $("againBtn");
+  const typeEl = $("type");
 
-  const rainCanvas = document.getElementById("rain");
+  const bgm = $("bgm");
+
+  const rainCanvas = $("rain");
   const ctx = rainCanvas.getContext("2d");
 
   // ===== State =====
@@ -382,40 +356,15 @@ Sevgililer günün kutlu olsun.
   let matched = 0;
   const TOTAL_PAIRS = 4;
 
-  // catch
+  // catch (EASY)
   let catchRunning = false;
   let caught = 0;
-  let timeLeft = 12;
-  const CATCH_GOAL = 14;
+  let timeLeft = 20;
+  const CATCH_GOAL = 8;
   let spawnTimer = null;
   let countdownTimer = null;
 
   // ===== Helpers =====
-  const setStage = (n) => {
-    stage = n;
-    stagePill.textContent = `${stage}/3`;
-    s1.style.display = stage >= 1 ? "block" : "none";
-    s2.style.display = stage >= 2 ? "block" : "none";
-    s3.style.display = stage >= 3 ? "block" : "none";
-
-    if(stage === 0){
-      statusHint.textContent = "Başla’ya basınca oyun açılır.";
-      statusMsg.textContent = "";
-    }
-    if(stage === 1){
-      statusHint.textContent = "Şifreyi bulunca 2. aşama açılır.";
-      statusMsg.textContent = `İpucu: ${MEET_DATE_TEXT} veya Bansko 😉`;
-    }
-    if(stage === 2){
-      statusHint.textContent = `${TOTAL_PAIRS} eşleşme yapınca 3. aşama açılır.`;
-      statusMsg.textContent = "Minik ipucu: Kartların hepsi sizden 💗";
-    }
-    if(stage === 3){
-      statusHint.textContent = "Kalpleri topla, final sürprizi açılır.";
-      statusMsg.textContent = "Hazır ol… finalde kalpler yağacak 💘";
-    }
-  };
-
   const normalize = (s) =>
     (s || "")
       .toLowerCase()
@@ -428,6 +377,40 @@ Sevgililer günün kutlu olsun.
       .replace(/\s+/g," ")
       .trim();
 
+  const shuffle = (arr) => {
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  };
+
+  const setStage = (n) => {
+    stage = n;
+    stagePill.textContent = `${stage}/3`;
+    s1.style.display = stage >= 1 ? "block" : "none";
+    s2.style.display = stage >= 2 ? "block" : "none";
+    s3.style.display = stage >= 3 ? "block" : "none";
+
+    if(stage === 0){
+      statusHint.textContent = "Başla’ya basınca oyun açılır.";
+      statusMsg.textContent = "";
+    }
+    if(stage === 1){
+      statusHint.textContent = "Şifreyi girince devam eder 💌";
+      statusMsg.textContent = `Hoş geldin ${GIRL_NAME} 💗`;
+    }
+    if(stage === 2){
+      statusHint.textContent = `${TOTAL_PAIRS} eşleşme yapınca 3. aşama açılır.`;
+      statusMsg.textContent = "Kartları eşleştir 💗";
+    }
+    if(stage === 3){
+      statusHint.textContent = "Kalpleri topla, final açılır 💘";
+      statusMsg.textContent = "Kolay mod açık 😄";
+    }
+  };
+
   const safePlayMusic = async () => {
     try{
       await bgm.play();
@@ -436,7 +419,6 @@ Sevgililer günün kutlu olsun.
     }catch(e){
       musicOn = false;
       musicBtn.textContent = "🔈 Müzik";
-      statusMsg.textContent = "Telefonda müzik için: Başla’ya basınca deniyor; bazı cihazlar sessiz modda engelleyebilir.";
     }
   };
 
@@ -450,32 +432,19 @@ Sevgililer günün kutlu olsun.
     }
   };
 
-  const shuffle = (arr) => {
-    const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i],a[j]] = [a[j],a[i]];
-    }
-    return a;
-  };
-
-  // ===== Stage 1 (Password) =====
+  // ===== Stage 1 =====
   const checkPassword = () => {
-    const raw = passInput.value;
-    const n = normalize(raw);
+    const n = normalize(passInput.value);
     const ok = MEET_PASSWORDS.some(p => normalize(p) === n);
     if(ok){
-      passMsg.textContent = `Doğru 💌 Hoş geldin ${GIRL_NAME}…`;
-      setTimeout(() => {
-        initMemory();
-        setStage(2);
-      }, 600);
+      passMsg.textContent = "Doğru 💘";
+      setTimeout(() => { initMemory(); setStage(2); }, 450);
     }else{
-      passMsg.textContent = "Olmadı 🙈 İpucu: 2 Şubat 2025 ya da “bansko”";
+      passMsg.textContent = "Olmadı 🙈 Tekrar dene.";
     }
   };
 
-  // ===== Stage 2 (Memory) =====
+  // ===== Stage 2 =====
   function initMemory(){
     board.innerHTML = "";
     boardMsg.textContent = "";
@@ -484,27 +453,18 @@ Sevgililer günün kutlu olsun.
     matchCount.textContent = "0";
 
     const pairs = [
-      {k:"bansko", icon:"⛷️", label:"Bansko"},
-      {k:"horse",  icon:"🏇", label:"Binicilik"},
-      {k:"cinema", icon:"🍿", label:"Sinema"},
-      {k:"luiss",  icon:"🇮🇹🎓", label:"Roma LUISS"},
+      {k:"bansko", icon:"⛷️"},
+      {k:"horse",  icon:"🏇"},
+      {k:"cinema", icon:"🍿"},
+      {k:"luiss",  icon:"🇮🇹🎓"},
     ];
 
-    const tiles = shuffle([...pairs, ...pairs].map((p, idx) => ({
-      id: idx + "_" + p.k,
-      key: p.k,
-      icon: p.icon,
-      label: p.label
-    })));
-
+    const tiles = shuffle([...pairs, ...pairs]);
     tiles.forEach(t => {
       const el = document.createElement("div");
       el.className = "tile";
-      el.dataset.key = t.key;
-      el.innerHTML = `
-        <div aria-hidden="true">${t.icon}</div>
-        <div class="cover">AÇ</div>
-      `;
+      el.dataset.key = t.k;
+      el.innerHTML = `<div aria-hidden="true">${t.icon}</div><div class="cover">AÇ</div>`;
       el.addEventListener("click", () => onTile(el));
       board.appendChild(el);
     });
@@ -528,35 +488,32 @@ Sevgililer günün kutlu olsun.
         matched++;
         matchCount.textContent = String(matched);
 
-        const sweet =
-          matched === 1 ? "İlk anı tamam 💗" :
-          matched === 2 ? "İkinci anı da tamam 💞" :
-          matched === 3 ? "Üçüncü anı… çok tatlı 🥰" :
-          "Hepsi tamam… final yolu açıldı 💘";
-
-        boardMsg.textContent = sweet;
+        boardMsg.textContent =
+          matched === 1 ? "Tatlı 💗" :
+          matched === 2 ? "Devam 😄" :
+          matched === 3 ? "Az kaldı 🥰" :
+          "Tamam 💘";
 
         if(matched >= TOTAL_PAIRS){
-          setTimeout(() => setStage(3), 650);
+          setTimeout(() => setStage(3), 500);
         }
       }else{
-        boardMsg.textContent = "Ufak karıştı 😄 Tekrar dene.";
         setTimeout(() => {
           a.classList.remove("revealed");
           b.classList.remove("revealed");
           openTiles = [];
-        }, 650);
+        }, 550);
       }
     }
   }
 
-  // ===== Stage 3 (Catch Hearts) =====
+  // ===== Stage 3 (FIXED) =====
   function resetCatch(){
     catchRunning = false;
     caught = 0;
-    timeLeft = 12;
+    timeLeft = 20;
     caughtEl.textContent = "0";
-    timeLeftEl.textContent = "12";
+    timeLeftEl.textContent = "20";
     catchMsg.textContent = "";
     arena.innerHTML = "";
     if(spawnTimer) clearInterval(spawnTimer);
@@ -566,36 +523,46 @@ Sevgililer günün kutlu olsun.
   function spawnHeart(){
     const el = document.createElement("div");
     el.className = "heart";
-    el.textContent = Math.random() < 0.25 ? "💘" : "💗";
+    el.textContent = (Math.random() < 0.25) ? "💘" : "💗";
 
-    const x = Math.random() * (arena.clientWidth - 30);
+    // easier tap: keep inside area
+    const maxX = Math.max(10, arena.clientWidth - 70);
+    const x = 10 + Math.random() * maxX;
     el.style.left = x + "px";
-    el.style.top  = "-30px";
+    el.style.top  = "-60px";
 
-    const speed = 2.0 + Math.random() * 2.8;
-    let y = -30;
+    // slower fall
+    const speed = 1.2 + Math.random() * 1.2;
+    let y = -60;
+    let alive = true;
 
     const tick = () => {
+      if(!alive) return;
       if(!catchRunning){ el.remove(); return; }
       y += speed;
       el.style.top = y + "px";
-      if(y > arena.clientHeight + 40){
+      if(y > arena.clientHeight + 80){
         el.remove();
+        alive = false;
         return;
       }
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
 
-    el.addEventListener("click", () => {
+    // pointer events for better mobile tapping
+    const hit = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       if(!catchRunning) return;
       caught++;
       caughtEl.textContent = String(caught);
       el.remove();
-      if(caught >= CATCH_GOAL){
-        finishGame();
-      }
-    });
+      alive = false;
+      if(caught >= CATCH_GOAL) finishGame();
+    };
+    el.addEventListener("pointerdown", hit, {passive:false});
+    el.addEventListener("click", hit);
 
     arena.appendChild(el);
   }
@@ -604,9 +571,11 @@ Sevgililer günün kutlu olsun.
     if(catchRunning) return;
     resetCatch();
     catchRunning = true;
-    catchMsg.textContent = "Başla! Kalplere tıkla 💖";
+    catchMsg.textContent = "Kalplere dokun 💗";
 
-    spawnTimer = setInterval(spawnHeart, 320);
+    // fewer hearts, slower spawn
+    spawnTimer = setInterval(spawnHeart, 600);
+
     countdownTimer = setInterval(() => {
       timeLeft--;
       timeLeftEl.textContent = String(timeLeft);
@@ -620,7 +589,7 @@ Sevgililer günün kutlu olsun.
     catchRunning = false;
     if(spawnTimer) clearInterval(spawnTimer);
     if(countdownTimer) clearInterval(countdownTimer);
-    catchMsg.textContent = "Az kaldı 😄 Tekrar dene!";
+    catchMsg.textContent = "Olmadıysa sorun değil 😄 Tekrar dene!";
   }
 
   // ===== Final =====
@@ -637,7 +606,7 @@ Sevgililer günün kutlu olsun.
   function openFinal(){
     modal.style.display = "grid";
     typeWriter(FINAL_TEXT);
-    startHeartRain(320); // extra hearts
+    startHeartRain(340);
   }
 
   function closeFinal(){
@@ -649,11 +618,11 @@ Sevgililer günün kutlu olsun.
     catchRunning = false;
     if(spawnTimer) clearInterval(spawnTimer);
     if(countdownTimer) clearInterval(countdownTimer);
-    catchMsg.textContent = "Tamamlandı 💘 Final açılıyor...";
+    catchMsg.textContent = "Tamam 💘";
     setTimeout(openFinal, 450);
   }
 
-  // ===== Heart rain (canvas) =====
+  // ===== Heart rain =====
   let rainOn = false;
   let particles = [];
   let rainRAF = null;
@@ -725,8 +694,7 @@ Sevgililer günün kutlu olsun.
 
   startBtn.addEventListener("click", async () => {
     setStage(1);
-    statusMsg.textContent = `Hoş geldin ${GIRL_NAME} 💗 Şifreyi çözünce devam edecek.`;
-    await safePlayMusic(); // user gesture => music allowed
+    await safePlayMusic(); // allowed by user gesture
     passInput.focus();
   });
 
@@ -739,10 +707,6 @@ Sevgililer günün kutlu olsun.
 
   closeBtn.addEventListener("click", closeFinal);
   againBtn.addEventListener("click", () => { closeFinal(); resetAll(); });
-
-  skipBtn.addEventListener("click", () => { initMemory(); setStage(3); });
-
-  window.addEventListener("resize", () => { if(rainOn) resizeCanvas(); });
 
   resetAll();
 })();
