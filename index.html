@@ -3,204 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sonsuza Dek Biz ❤️</title>
+    <title>Seni Seviyorum Demenin En Zor Yolu ❤️</title>
     <style>
-        :root {
-            --primary: #ff4d6d;
-            --secondary: #ff758f;
-            --bg: #fff0f3;
+        :root { --p: #ff4d6d; --s: #590d22; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: white; overflow: hidden; }
+        
+        .screen {
+            display: none; height: 100vh; width: 100vw;
+            flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; box-sizing: border-box; text-align: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: var(--s); transition: 0.5s;
         }
-
-        body, html {
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .active { display: flex; }
+        
+        .box { background: rgba(255,255,255,0.9); padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 400px; }
+        button {
+            background: var(--p); color: white; border: none; padding: 15px 25px;
+            border-radius: 50px; font-weight: bold; margin: 10px; cursor: pointer; width: 100%;
         }
-
-        /* Arka Plan Kalp Yağmuru */
-        #bg-canvas {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
-
-        /* Ana Kart Tasarımı */
-        .container {
-            position: relative;
-            z-index: 10;
-            width: 85%;
-            max-width: 450px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 40px 30px;
-            border-radius: 30px;
-            border: 2px solid white;
-            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.15);
-            text-align: center;
-        }
-
-        /* İlerleme Çubuğu */
-        .progress-container {
-            width: 100%; height: 6px;
-            background: #eee;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        .progress-bar {
-            height: 100%; width: 20%;
-            background: var(--primary);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        .step { display: none; animation: slideUp 0.6s ease; }
-        .step.active { display: block; }
-
-        h2 { color: var(--primary); font-size: 1.6rem; margin-bottom: 15px; }
-        p { color: #590d22; line-height: 1.6; font-size: 1.05rem; }
-
-        .btn {
-            background: var(--primary);
-            color: white; border: none;
-            padding: 15px 20px; border-radius: 15px;
-            font-size: 1rem; font-weight: bold;
-            cursor: pointer; width: 100%;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
-        }
-        .btn:hover { background: var(--secondary); transform: translateY(-2px); }
-
-        /* Kaçan Buton Stili */
-        #runaway { background: #adb5bd; width: auto; position: absolute; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .photo-placeholder {
-            width: 120px; height: 120px;
-            background: #ffd1dc;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex; align-items: center; justify-content: center;
-            border: 4px solid white;
-            overflow: hidden;
-        }
+        
+        /* Şaka Ekranı */
+        .glitch { background: black !important; color: lime !important; font-family: 'Courier New', monospace; }
+        
+        #running-btn { position: absolute; width: auto; z-index: 1000; }
+        .stats { position: fixed; top: 10px; left: 10px; font-size: 12px; background: rgba(0,0,0,0.5); color: white; padding: 5px 10px; border-radius: 10px; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
+<div class="stats">Aşk Puanı: <span id="score">0</span> | Sabır: <span id="patience">100</span></div>
 
-<div class="container">
-    <div class="progress-container">
-        <div class="progress-bar" id="pb"></div>
-    </div>
-
-    <div class="step active" id="s1">
-        <div class="photo-placeholder">❤️</div>
-        <h2>Merhaba Bir Tanem...</h2>
-        <p>Seninle geçen her saniye benim için bir hazine. Bugün senin için küçük bir sürpriz yolculuk hazırladım.</p>
-        <button class="btn" onclick="go(2, 40)">Yolculuğa Başla ✨</button>
-    </div>
-
-    <div class="step" id="s2">
-        <h2>Biliyor muydun?</h2>
-        <p>Gözlerine her baktığımda, ilk günkü o heyecanı hala hissediyorum. Sence bizim "en güzel" anımız hangisiydi?</p>
-        <button class="btn" onclick="go(3, 60)">Hepsi Çok Özeldi 🌹</button>
-    </div>
-
-    <div class="step" id="s3">
-        <h2>Ufak Bir Test 😉</h2>
-        <p>Beni ne kadar çok seviyorsun? (Dürüst ol!)</p>
-        <button class="btn" onclick="go(4, 85)">Sonsuzluğa Kadar! ∞</button>
-        <button class="btn" id="runaway" onmouseover="evade()" onclick="evade()">Azıcık... 🤏</button>
-    </div>
-
-    <div class="step" id="s4">
-        <h2>Seni Seviyorum!</h2>
-        <p>İyi ki benimlesin, iyi ki kalbin benimle atıyor. Nice mutlu yıllarımız, beraber yaşlanacağımız günlerimiz olsun.</p>
-        <div style="font-size: 1.2rem; font-weight: bold; margin: 20px 0; color: var(--primary);">
-            14 Şubat Sevgililer Günümüz Kutlu Olsun! 💐
-        </div>
-        <button class="btn" onclick="celebrate()">Sana Sarılmak İstiyorum 🤗</button>
+<div class="screen active" id="sc1">
+    <div class="box">
+        <h1>⚠️ ERIŞIM İZNİ</h1>
+        <p>Bu siteye girmek için dünyanın en tatlı sevgilisi olduğunuzu kanıtlamanız gerekiyor.</p>
+        <button onclick="next(2, 10)">Kanıtla ve Başla ✨</button>
     </div>
 </div>
 
+<div class="screen" id="sc2">
+    <div class="box">
+        <h2>Hafıza Testi 🧠</h2>
+        <p>İlk buluştuğumuzda (veya tanıştığımızda) benim üzerimde ne vardı?</p>
+        <button onclick="next(3, 20)">Çok yakışıklı/güzel bir gülümseme 😊</button>
+        <button onclick="fail()">Hatırlamıyorum... (RİSKLİ)</button>
+    </div>
+</div>
+
+<div class="screen glitch" id="sc-fail">
+    <h1>SİSTEM HATASI!</h1>
+    <p>Hatalı cevap tespit edildi. Sevgili dosyaları siliniyor...</p>
+    <p id="timer">5...</p>
+    <button style="background: lime; color: black;" onclick="next(3, 0)">TAMAM TAMAM ŞAKAYDI, DEVAM ET</button>
+</div>
+
+<div class="screen" id="sc3">
+    <div class="box">
+        <h2>Sabır Testi 🧘‍♀️</h2>
+        <p>Beni ne kadar seviyorsun? (Aşağıdaki butonu yakalaman lazım)</p>
+        <div style="height: 100px;"></div>
+        <button id="running-btn" onmouseover="run()" onclick="next(4, 50)">ÇOOOOK! ❤️</button>
+    </div>
+</div>
+
+<div class="screen" id="sc4" style="background: black !important; color: white;">
+    <h2>Eyvah, Işıklar Söndü! 🔦</h2>
+    <p>Kalbim karanlıkta kaldı. Onu bulabilir misin?</p>
+    <div id="hidden-heart" onclick="next(5, 80)" style="cursor: pointer; font-size: 10px; opacity: 0.1;">❤️</div>
+    <p style="font-size: 12px;">(İpucu: Ekranın ortalarında bir yerde saklanıyor, iyi bak!)</p>
+</div>
+
+<div class="screen" id="sc5">
+    <div class="box">
+        <h2 id="final-text">Ve Son Soru...</h2>
+        <p>Benimle beraber bir ömür boyu, her sabah bu kadar saçma ama tatlı sürprizlere katlanmaya var mısın?</p>
+        <button onclick="finish()">EVET, SONSUZA KADAR! 🎉</button>
+        <button onclick="alert('Bu buton çalışmıyor, boşuna uğraşma sevgilim :))')">Hayır (Hata 404)</button>
+    </div>
+</div>
+
+<div class="screen" id="sc-win" style="background: radial-gradient(circle, #ff4d6d, #590d22) !important; color: white !important;">
+    <h1 style="font-size: 50px;">❤️❤️❤️</h1>
+    <h2>TEBRİKLER!</h2>
+    <p>Dünyanın en sabırlı ve en sevilen sevgilisi ödülünü kazandın.</p>
+    <p>Şimdi bu ekranın ekran görüntüsünü al ve bana "Seni seviyorum" yazarak at. Ödülünü (gerçek bir sarılma) tahsil et!</p>
+    <div id="confetti">✨🌸🎊🎁💖</div>
+</div>
+
 <script>
-    // İlerleme ve Geçiş
-    function go(step, progress) {
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById('s' + step).classList.add('active');
-        document.getElementById('pb').style.width = progress + '%';
+    let score = 0;
+    let patience = 100;
+
+    function next(id, points) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        let target = id === 'fail' ? 'sc-fail' : 'sc' + id;
+        if(id === 5) target = 'sc-win';
+        if(id === 3 && points === 0) target = 'sc3'; // Hata ekranından dönüş
+        
+        document.getElementById(target).classList.add('active');
+        score += points;
+        document.getElementById('score').innerText = score;
     }
 
-    // Buton Kaçırma Fonksiyonu
-    function evade() {
-        const btn = document.getElementById('runaway');
-        const x = Math.random() * (window.innerWidth - btn.clientWidth);
-        const y = Math.random() * (window.innerHeight - btn.clientHeight);
-        btn.style.left = x + 'px';
-        btn.style.top = y + 'px';
+    function fail() {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('sc-fail').classList.add('active');
+        let t = 5;
+        const int = setInterval(() => {
+            t--;
+            document.getElementById('timer').innerText = t + "...";
+            if(t <= 0) clearInterval(int);
+        }, 1000);
     }
 
-    // Arka Plan Kalp Animasyonu
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let hearts = [];
-
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    class Heart {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = canvas.height + 100;
-            this.size = Math.random() * 15 + 10;
-            this.speed = Math.random() * 2 + 1;
-            this.opacity = Math.random() * 0.5 + 0.2;
-        }
-        draw() {
-            ctx.globalAlpha = this.opacity;
-            ctx.fillStyle = '#ff4d6d';
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            ctx.bezierCurveTo(this.x - this.size / 2, this.y - this.size / 2, this.x - this.size, this.y + this.size / 3, this.x, this.y + this.size);
-            ctx.bezierCurveTo(this.x + this.size, this.y + this.size / 3, this.x + this.size / 2, this.y - this.size / 2, this.x, this.y);
-            ctx.fill();
-        }
-        update() {
-            this.y -= this.speed;
-            if (this.y < -50) this.y = canvas.height + 100;
+    function run() {
+        const b = document.getElementById('running-btn');
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 50);
+        b.style.left = x + 'px';
+        b.style.top = y + 'px';
+        patience -= 2;
+        document.getElementById('patience').innerText = patience;
+        if(patience < 80) {
+            b.innerText = "Tamam tamam durdum!";
+            b.style.position = "static";
         }
     }
 
-    function init() {
-        for(let i=0; i<25; i++) hearts.push(new Heart());
-        animate();
+    function finish() {
+        next('win', 1000);
+        startConfetti();
     }
 
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        hearts.forEach(h => { h.update(); h.draw(); });
-        requestAnimationFrame(animate);
-    }
-    init();
-
-    function celebrate() {
-        alert("Seni çok ama çok seviyorum! ❤️ Linki kapatıp bana sarılmaya gelebilirsin.");
+    function startConfetti() {
+        setInterval(() => {
+            const e = document.createElement('div');
+            e.innerText = ['❤️','💖','✨','🌹'][Math.floor(Math.random()*4)];
+            e.style.position = 'fixed';
+            e.style.left = Math.random() * 100 + 'vw';
+            e.style.top = '-20px';
+            e.style.fontSize = Math.random() * 30 + 10 + 'px';
+            e.style.transition = '2s linear';
+            document.body.appendChild(e);
+            setTimeout(() => { e.style.top = '110vh'; e.style.opacity = '0'; }, 10);
+            setTimeout(() => e.remove(), 2000);
+        }, 150);
     }
 </script>
 
