@@ -2,153 +2,148 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seni Seviyorum Demenin En Zor Yolu ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aşk Labirenti: Hayatımın Anlamı ❤️</title>
     <style>
-        :root { --p: #ff4d6d; --s: #590d22; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: white; overflow: hidden; }
+        :root { --main: #ff4d6d; --dark: #590d22; --gold: #ffb703; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #000; color: #fff; overflow: hidden; }
+
+        .stage { display: none; height: 100vh; width: 100vw; flex-direction: column; align-items: center; justify-content: center; padding: 25px; text-align: center; background: radial-gradient(circle, #2b0d0d 0%, #000 100%); position: absolute; }
+        .active { display: flex; animation: fadeIn 1s forwards; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        .card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.2); width: 100%; max-width: 350px; }
         
-        .screen {
-            display: none; height: 100vh; width: 100vw;
-            flex-direction: column; align-items: center; justify-content: center;
-            padding: 20px; box-sizing: border-box; text-align: center;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            color: var(--s); transition: 0.5s;
-        }
-        .active { display: flex; }
-        
-        .box { background: rgba(255,255,255,0.9); padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 400px; }
-        button {
-            background: var(--p); color: white; border: none; padding: 15px 25px;
-            border-radius: 50px; font-weight: bold; margin: 10px; cursor: pointer; width: 100%;
-        }
-        
-        /* Şaka Ekranı */
-        .glitch { background: black !important; color: lime !important; font-family: 'Courier New', monospace; }
-        
-        #running-btn { position: absolute; width: auto; z-index: 1000; }
-        .stats { position: fixed; top: 10px; left: 10px; font-size: 12px; background: rgba(0,0,0,0.5); color: white; padding: 5px 10px; border-radius: 10px; }
+        button { background: var(--main); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; width: 100%; margin: 10px 0; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+        button:active { transform: scale(0.95); background: var(--dark); }
+
+        input { width: 100%; padding: 12px; border-radius: 10px; border: none; margin-bottom: 10px; text-align: center; font-size: 1.2rem; }
+
+        /* Mini Oyun: Karanlık Oda */
+        #flashlight { position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%); pointer-events: none; border-radius: 50%; display: none; }
+
+        /* Envanter Çubuğu */
+        .inventory { position: fixed; top: 10px; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 100; }
+        .item { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 12px; opacity: 0.3; transition: 0.5s; }
+        .obtained { opacity: 1; background: var(--main); box-shadow: 0 0 10px var(--main); }
+
+        .glitch-text { color: #ff0000; font-family: monospace; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<div class="stats">Aşk Puanı: <span id="score">0</span> | Sabır: <span id="patience">100</span></div>
+<div class="inventory">
+    <div id="item1" class="item">🔑 Anahtar</div>
+    <div id="item2" class="item">🧩 Parça</div>
+    <div id="item3" class="item">💎 Elmas</div>
+</div>
 
-<div class="screen active" id="sc1">
-    <div class="box">
-        <h1>⚠️ ERIŞIM İZNİ</h1>
-        <p>Bu siteye girmek için dünyanın en tatlı sevgilisi olduğunuzu kanıtlamanız gerekiyor.</p>
-        <button onclick="next(2, 10)">Kanıtla ve Başla ✨</button>
+<div class="stage active" id="st1">
+    <h1 style="color: var(--main);">GİRİŞ YASAK! 🛑</h1>
+    <p>Bu alan sadece "Dünyanın En Şanslı Sevgilisi" içindir. Devam etmek istiyor musun?</p>
+    <button onclick="next(2)">Evet, O Benim! ✨</button>
+</div>
+
+<div class="stage" id="st2">
+    <div class="card">
+        <h2>Kilitli Kasa 🔒</h2>
+        <p>İçeri girmek için şifreyi bilmelisin. <br><small>(İpucu: Bizim yılımız veya tanıştığımız gün?)</small></p>
+        <input type="number" id="passInput" placeholder="4 Haneli Şifre">
+        <button onclick="checkPass()">Kilidi Aç</button>
+        <p id="hint" style="font-size: 12px; color: var(--main);"></p>
     </div>
 </div>
 
-<div class="screen" id="sc2">
-    <div class="box">
-        <h2>Hafıza Testi 🧠</h2>
-        <p>İlk buluştuğumuzda (veya tanıştığımızda) benim üzerimde ne vardı?</p>
-        <button onclick="next(3, 20)">Çok yakışıklı/güzel bir gülümseme 😊</button>
-        <button onclick="fail()">Hatırlamıyorum... (RİSKLİ)</button>
+<div class="stage" id="st3" onmousemove="moveFlashlight(event)" ontouchmove="moveFlashlightTouch(event)">
+    <div id="flashlight"></div>
+    <h2>Karanlık Koridor 🔦</h2>
+    <p>Burada bir anahtar saklı... Parmağınla/fareyle ekranı tara ve bul!</p>
+    <div id="hiddenKey" onclick="foundKey()" style="position: absolute; left: 70%; top: 40%; font-size: 30px; cursor: pointer; opacity: 0;">🔑</div>
+</div>
+
+<div class="stage" id="st4">
+    <div class="card">
+        <h2>Büyük Risk ⚡</h2>
+        <p>Aşağıdaki kablolardan hangisini kesersen aşkımız sonsuza kadar sürer?</p>
+        <button style="background: blue;" onclick="next(5)">Mavi Kablo</button>
+        <button style="background: red;" onclick="next(5)">Kırmızı Kablo</button>
+        <button style="background: var(--gold);" onclick="next(5)">Altın Kablo (Tavsiye Edilen)</button>
     </div>
 </div>
 
-<div class="screen glitch" id="sc-fail">
-    <h1>SİSTEM HATASI!</h1>
-    <p>Hatalı cevap tespit edildi. Sevgili dosyaları siliniyor...</p>
-    <p id="timer">5...</p>
-    <button style="background: lime; color: black;" onclick="next(3, 0)">TAMAM TAMAM ŞAKAYDI, DEVAM ET</button>
-</div>
-
-<div class="screen" id="sc3">
-    <div class="box">
-        <h2>Sabır Testi 🧘‍♀️</h2>
-        <p>Beni ne kadar seviyorsun? (Aşağıdaki butonu yakalaman lazım)</p>
-        <div style="height: 100px;"></div>
-        <button id="running-btn" onmouseover="run()" onclick="next(4, 50)">ÇOOOOK! ❤️</button>
+<div class="stage" id="st5">
+    <h2>Neredeyse Geldik... ❤️</h2>
+    <p id="typingText"></p>
+    <div id="finalBtns" style="display:none;">
+        <button onclick="next(6)">Sona Git ✨</button>
     </div>
 </div>
 
-<div class="screen" id="sc4" style="background: black !important; color: white;">
-    <h2>Eyvah, Işıklar Söndü! 🔦</h2>
-    <p>Kalbim karanlıkta kaldı. Onu bulabilir misin?</p>
-    <div id="hidden-heart" onclick="next(5, 80)" style="cursor: pointer; font-size: 10px; opacity: 0.1;">❤️</div>
-    <p style="font-size: 12px;">(İpucu: Ekranın ortalarında bir yerde saklanıyor, iyi bak!)</p>
-</div>
-
-<div class="screen" id="sc5">
-    <div class="box">
-        <h2 id="final-text">Ve Son Soru...</h2>
-        <p>Benimle beraber bir ömür boyu, her sabah bu kadar saçma ama tatlı sürprizlere katlanmaya var mısın?</p>
-        <button onclick="finish()">EVET, SONSUZA KADAR! 🎉</button>
-        <button onclick="alert('Bu buton çalışmıyor, boşuna uğraşma sevgilim :))')">Hayır (Hata 404)</button>
+<div class="stage" id="st6">
+    <div class="card" style="border: 2px solid var(--main);">
+        <h1 style="color: var(--main);">SENİ SEVİYORUM!</h1>
+        <p>Bütün engelleri aştın, şifreleri çözdün ve kalbime ulaştın.</p>
+        <p>Bu 14 Şubat'ta yanında olduğum için çok mutluyum. Hayat boyu bu oyunu beraber oynamaya var mısın?</p>
+        <div style="font-size: 40px;">💍🌹💖</div>
+        <button onclick="alert('Seni her şeyden çok seviyorum!')">Sonsuza Kadar Evet!</button>
     </div>
-</div>
-
-<div class="screen" id="sc-win" style="background: radial-gradient(circle, #ff4d6d, #590d22) !important; color: white !important;">
-    <h1 style="font-size: 50px;">❤️❤️❤️</h1>
-    <h2>TEBRİKLER!</h2>
-    <p>Dünyanın en sabırlı ve en sevilen sevgilisi ödülünü kazandın.</p>
-    <p>Şimdi bu ekranın ekran görüntüsünü al ve bana "Seni seviyorum" yazarak at. Ödülünü (gerçek bir sarılma) tahsil et!</p>
-    <div id="confetti">✨🌸🎊🎁💖</div>
 </div>
 
 <script>
-    let score = 0;
-    let patience = 100;
-
-    function next(id, points) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        let target = id === 'fail' ? 'sc-fail' : 'sc' + id;
-        if(id === 5) target = 'sc-win';
-        if(id === 3 && points === 0) target = 'sc3'; // Hata ekranından dönüş
-        
-        document.getElementById(target).classList.add('active');
-        score += points;
-        document.getElementById('score').innerText = score;
+    function next(id) {
+        document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
+        document.getElementById('st' + id).classList.add('active');
+        if(id === 3) document.getElementById('flashlight').style.display = 'block';
+        if(id === 5) startTyping();
     }
 
-    function fail() {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById('sc-fail').classList.add('active');
-        let t = 5;
-        const int = setInterval(() => {
-            t--;
-            document.getElementById('timer').innerText = t + "...";
-            if(t <= 0) clearInterval(int);
-        }, 1000);
-    }
-
-    function run() {
-        const b = document.getElementById('running-btn');
-        const x = Math.random() * (window.innerWidth - 100);
-        const y = Math.random() * (window.innerHeight - 50);
-        b.style.left = x + 'px';
-        b.style.top = y + 'px';
-        patience -= 2;
-        document.getElementById('patience').innerText = patience;
-        if(patience < 80) {
-            b.innerText = "Tamam tamam durdum!";
-            b.style.position = "static";
+    // Şifre Kontrolü (Buradaki 2024'ü kendi özel yılınızla değiştirin)
+    function checkPass() {
+        const val = document.getElementById('passInput').value;
+        if(val == "2024") { // Burayı değiştir!
+            document.getElementById('item2').classList.add('obtained');
+            next(3);
+        } else {
+            document.getElementById('hint').innerText = "Yanlış! Tekrar dene sevgilim ❤️";
         }
     }
 
-    function finish() {
-        next('win', 1000);
-        startConfetti();
+    // El Feneri Mekaniği
+    function moveFlashlight(e) {
+        const f = document.getElementById('flashlight');
+        f.style.left = (e.clientX - 75) + 'px';
+        f.style.top = (e.clientY - 75) + 'px';
+    }
+    function moveFlashlightTouch(e) {
+        const touch = e.touches[0];
+        const f = document.getElementById('flashlight');
+        f.style.left = (touch.clientX - 75) + 'px';
+        f.style.top = (touch.clientY - 75) + 'px';
     }
 
-    function startConfetti() {
-        setInterval(() => {
-            const e = document.createElement('div');
-            e.innerText = ['❤️','💖','✨','🌹'][Math.floor(Math.random()*4)];
-            e.style.position = 'fixed';
-            e.style.left = Math.random() * 100 + 'vw';
-            e.style.top = '-20px';
-            e.style.fontSize = Math.random() * 30 + 10 + 'px';
-            e.style.transition = '2s linear';
-            document.body.appendChild(e);
-            setTimeout(() => { e.style.top = '110vh'; e.style.opacity = '0'; }, 10);
-            setTimeout(() => e.remove(), 2000);
-        }, 150);
+    function foundKey() {
+        document.getElementById('item1').classList.add('obtained');
+        alert("Anahtarı buldun! 🔑 Şimdi kapıyı açabiliriz.");
+        next(4);
+    }
+
+    // Yazı Yazma Efekti
+    function startTyping() {
+        const text = "Seninle geçen her gün bir macera, her gülüşün bir ödül... Bu labirentin sonu her zaman sana çıkıyor.";
+        let i = 0;
+        const speed = 50;
+        function type() {
+            if (i < text.length) {
+                document.getElementById('typingText').innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                document.getElementById('finalBtns').style.display = 'block';
+            }
+        }
+        type();
     }
 </script>
 
