@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>İzgi 💘 Sevgililer Günü</title>
+  <style>
+    :root{
+      --bg1:#12051a; --bg2:#2b0b2a;
+      --card:rgba(255,255,255,.08);
+      --stroke:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.72);
+      --pink:#ff4d8d; --pink2:#ff79b0; --gold:#ffd6a6;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 800px at 20% 10%, #3a0f3e 0%, transparent 55%),
+                  radial-gradient(900px 600px at 90% 30%, #2a0e3f 0%, transparent 60%),
+                  linear-gradient(160deg, var(--bg1), var(--bg2));
+      min-height:100vh; overflow-x:hidden;
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:18px}
+    .topbar{
+      display:flex;gap:10px;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:10;padding:12px 0;
+      backdrop-filter: blur(10px);
+    }
+    .brand{display:flex;gap:10px;align-items:center;}
+    .logo{
+      width:38px;height:38px;border-radius:14px;
+      background: linear-gradient(135deg, var(--pink), #b14cff);
+      box-shadow: 0 10px 30px rgba(255,77,141,.25);
+      display:grid;place-items:center;font-size:20px;
+    }
+    .brand h1{font-size:15px;margin:0;letter-spacing:.2px}
+    .brand .sub{font-size:12px;color:var(--muted);margin-top:2px}
+    .pillrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .pill{
+      padding:8px 10px;border-radius:999px;
+      background: var(--card); border:1px solid var(--stroke);
+      color:var(--muted); font-size:12px;
+    }
+    .btn{
+      border:0; cursor:pointer; user-select:none;
+      padding:10px 12px;border-radius:14px;font-weight:700;
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      color:white;
+      box-shadow: 0 12px 30px rgba(255,77,141,.22);
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.secondary{
+      background: rgba(255,255,255,.10);
+      border:1px solid var(--stroke);
+      box-shadow:none;
+    }
+
+    .grid{
+      display:grid;gap:14px;
+      grid-template-columns: 1.2fr .8fr;
+      align-items:start;
+    }
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .pillrow{justify-content:flex-start}
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--stroke);
+      border-radius:22px;
+      padding:16px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+    }
+    .hero{
+      padding:18px;
+      background:
+        radial-gradient(700px 260px at 20% 0%, rgba(255,77,141,.22), transparent 55%),
+        radial-gradient(520px 240px at 90% 30%, rgba(177,76,255,.18), transparent 55%),
+        var(--card);
+      border:1px solid var(--stroke);
+      border-radius:22px;
+    }
+    .hero h2{margin:0;font-size:22px;letter-spacing:.2px}
+    .hero p{margin:8px 0 0;color:var(--muted);line-height:1.55}
+    .steps{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .step{
+      flex:1; min-width:190px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:12px;
+    }
+    .step b{display:block;font-size:12px;color:var(--gold);letter-spacing:.5px}
+    .step span{display:block;margin-top:6px;color:var(--muted);font-size:13px;line-height:1.4}
+
+    .stageTitle{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .stageTitle h3{margin:0;font-size:16px}
+    .stageTitle .hint{font-size:12px;color:var(--muted)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .input{
+      width:100%;
+      padding:12px 14px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      color:var(--text); outline:none;
+      font-size:14px;
+    }
+    .input::placeholder{color:rgba(255,255,255,.45)}
+    .msg{
+      margin-top:10px;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:13px;
+      min-height:22px;
+    }
+
+    /* Memory game */
+    .board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+    @media (max-width:640px){ .board{grid-template-columns:repeat(2,1fr)} }
+    .tile{
+      position:relative;
+      height:86px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      cursor:pointer;
+      display:grid;place-items:center;
+      font-size:30px;
+      transition: transform .08s;
+    }
+    .tile:active{transform:scale(.99)}
+    .tile .cover{
+      position:absolute;inset:0;
+      background: linear-gradient(135deg, rgba(255,77,141,.35), rgba(177,76,255,.25));
+      display:grid;place-items:center;
+      font-size:16px;font-weight:800;letter-spacing:.8px;
+      color:rgba(255,255,255,.92);
+      transition: opacity .18s;
+    }
+    .tile.revealed .cover{opacity:0;pointer-events:none}
+    .tile.matched{outline:2px solid rgba(255,214,166,.35)}
+
+    /* Heart catch */
+    .arena{
+      position:relative;
+      height:320px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.14);
+      background: radial-gradient(500px 200px at 50% 0%, rgba(255,77,141,.18), transparent 60%),
+                  rgba(0,0,0,.18);
+      overflow:hidden;
+      margin-top:12px;
+      touch-action: manipulation;
+    }
+    .heart{
+      position:absolute;
+      font-size:28px;
+      filter: drop-shadow(0 10px 16px rgba(255,77,141,.25));
+      user-select:none;
+      cursor:pointer;
+    }
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .stat{padding:8px 10px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);font-size:12px;color:var(--muted)}
+    .stat b{color:var(--text)}
+
+    /* Modal */
+    .modal{
+      position:fixed;inset:0;display:none;place-items:center;
+      background: rgba(0,0,0,.6);
+      z-index:30;
+      padding:18px;
+    }
+    .modal .box{max-width:740px;width:100%}
+    .finalHead{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .type{
+      margin-top:10px;
+      font-size:16px;
+      line-height:1.75;
+      color:rgba(255,255,255,.92);
+      white-space:pre-wrap;
+      min-height:120px;
+    }
+    .tiny{font-size:12px;color:var(--muted);margin-top:10px}
+    canvas#rain{position:fixed;inset:0;pointer-events:none;display:none;z-index:25}
+  </style>
+</head>
+<body>
+  <canvas id="rain"></canvas>
+
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">💘</div>
+        <div>
+          <h1>İzgi için Sevgililer Günü</h1>
+          <div class="sub">Bansko • Binicilik • Sinema • Kayak • Yemek • Roma LUISS 🇮🇹🎓</div>
+        </div>
+      </div>
+      <div class="pillrow">
+        <span class="pill">Aşama: <b id="stagePill">0/3</b></span>
+        <button class="btn secondary" id="musicBtn">🔈 Müzik</button>
+        <button class="btn" id="startBtn">Başla ✨</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="hero">
+        <h2>Minik bir oyun… ama hisler gerçek 💗</h2>
+        <p>
+          İzgi, bu sayfayı açtıysan… bugün küçük bir maceraya giriyorsun.
+          3 aşamayı geçince finalde sürpriz var.
+        </p>
+        <div class="steps">
+          <div class="step"><b>1) Şifre</b><span>Tarih ya da tek kelimeyi bul 😉</span></div>
+          <div class="step"><b>2) Anılar</b><span>4 çifti eşleştir</span></div>
+          <div class="step"><b>3) Kalp Yakala</b><span>Kalpleri topla, final açılıyor 💘</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stageTitle">
+          <h3>Durum</h3>
+          <div class="hint" id="statusHint">Başla’ya basınca oyun açılır.</div>
+        </div>
+        <div class="msg" id="statusMsg"></div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn secondary" id="resetBtn">Sıfırla</button>
+          <button class="btn secondary" id="skipBtn" title="Sadece test için">Test: Son Aşamaya Git</button>
+        </div>
+        <div class="tiny">
+          Not: Telefonda müzik otomatik başlamaz; “Başla” ile başlatıyoruz.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 1 -->
+    <div class="card" id="stage1" style="margin-top:14px; display:none">
+      <div class="stageTitle">
+        <h3>1) Şifreyi Bul 🔐</h3>
+        <div class="hint">İpucu: 2 Şubat 2025 + bir şehir (kayak) 😉</div>
+      </div>
+      <div class="msg">İki seçenekten biri yeter: <b>tarih</b> (02022025 / 02/02/2025) veya <b>bansko</b> yaz 💌</div>
+      <div class="row" style="margin-top:12px">
+        <input class="input" id="passInput" placeholder="Şifreyi yaz..." />
+        <button class="btn" id="passBtn">Onayla 💌</button>
+      </div>
+      <div class="msg" id="passMsg"></div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="card" id="stage2" style="margin-top:14px; display:none">
+      <div class="stageTitle">
+        <h3>2) Anıları Eşleştir 🧩</h3>
+        <div class="hint"><span id="matchCount">0</span>/4 bulundu</div>
+      </div>
+      <div class="msg">Bansko ⛷️ • Binicilik 🏇 • Sinema 🍿 • Roma LUISS 🇮🇹🎓</div>
+      <div class="board" id="board"></div>
+      <div class="msg" id="boardMsg"></div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="card" id="stage3" style="margin-top:14px; display:none">
+      <div class="stageTitle">
+        <h3>3) Kalp Yakala 💖</h3>
+        <div class="hint">12 saniyede <b>14</b> kalp</div>
+      </div>
+      <div class="arena" id="arena"></div>
+      <div class="stats">
+        <div class="stat">Süre: <b id="timeLeft">12</b>s</div>
+        <div class="stat">Toplanan: <b id="caught">0</b>/14</div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" id="catchStart">Başlat 🚀</button>
+      </div>
+      <div class="msg" id="catchMsg"></div>
+    </div>
+  </div>
+
+  <!-- Final Modal -->
+  <div class="modal" id="modal">
+    <div class="card box">
+      <div class="finalHead">
+        <h3 style="margin:0">Final 💘</h3>
+        <div class="row">
+          <button class="btn secondary" id="againBtn">Tekrar Oyna</button>
+          <button class="btn" id="closeBtn">Kapat</button>
+        </div>
+      </div>
+      <div class="type" id="type"></div>
+      <div class="tiny">
+        Şarkı eklemek için: repoya <b>song.mp3</b> yükle (root) ve müzik butonuyla aç. (Telefon kuralı.)
+      </div>
+    </div>
+  </div>
+
+  <!-- Music: Upload song.mp3 into repo root -->
+  <audio id="bgm" loop>
+    <source src="song.mp3" type="audio/mpeg" />
+  </audio>
+
+<script>
+(() => {
+  // ===== Personalization =====
+  const GIRL_NAME = "İzgi";
+  const MEET_DATE_TEXT = "2 Şubat 2025";
+
+  // Şifre: tarih veya "bansko"
+  const MEET_PASSWORDS = [
+    "02022025","02/02/2025","2/2/2025","2 şubat 2025","2 subat 2025","02.02.2025","2.2.2025",
+    "bansko", "bansko kayak merkezi"
+  ];
+
+  const FINAL_TEXT =
+`İzgi,
+
+Bansko’da başlayan o an… benim için “tamam” anıydı.
+Senin yanındayken dünya daha yumuşak: daha güvenli, daha güzel.
+
+Sen bal gibi dünya tatlısısın…
+ve hep destekçi olman benim için ayrı bir güç. 💗
+
+Ben de sana hep ince düşüneyim:
+Sinema gibi birlikte izleyelim,
+kayak gibi birlikte kayalım,
+yemek gibi birlikte paylaşalım,
+ve binicilik gibi hep gururla, hep güçlü devam edelim. 🏇
+
+Ve bir gün…
+Roma’da LUISS hayalini birlikte kutlayalım.
+Sen başarınca ben de mutlu oluyorum. Hep yanındayım. 🇮🇹💘
+
+Sevgililer günün kutlu olsun.
+İyi ki varsın. 💘`;
+
+  // ===== Elements =====
+  const startBtn = document.getElementById("startBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const skipBtn  = document.getElementById("skipBtn");
+  const musicBtn = document.getElementById("musicBtn");
+
+  const stagePill = document.getElementById("stagePill");
+  const statusHint = document.getElementById("statusHint");
+  const statusMsg = document.getElementById("statusMsg");
+
+  const s1 = document.getElementById("stage1");
+  const s2 = document.getElementById("stage2");
+  const s3 = document.getElementById("stage3");
+
+  const passInput = document.getElementById("passInput");
+  const passBtn = document.getElementById("passBtn");
+  const passMsg = document.getElementById("passMsg");
+
+  const board = document.getElementById("board");
+  const boardMsg = document.getElementById("boardMsg");
+  const matchCount = document.getElementById("matchCount");
+
+  const arena = document.getElementById("arena");
+  const catchStart = document.getElementById("catchStart");
+  const caughtEl = document.getElementById("caught");
+  const timeLeftEl = document.getElementById("timeLeft");
+  const catchMsg = document.getElementById("catchMsg");
+
+  const modal = document.getElementById("modal");
+  const closeBtn = document.getElementById("closeBtn");
+  const againBtn = document.getElementById("againBtn");
+  const typeEl = document.getElementById("type");
+
+  const bgm = document.getElementById("bgm");
+
+  const rainCanvas = document.getElementById("rain");
+  const ctx = rainCanvas.getContext("2d");
+
+  // ===== State =====
+  let stage = 0;
+  let musicOn = false;
+
+  // memory
+  let openTiles = [];
+  let matched = 0;
+  const TOTAL_PAIRS = 4;
+
+  // catch
+  let catchRunning = false;
+  let caught = 0;
+  let timeLeft = 12;
+  const CATCH_GOAL = 14;
+  let spawnTimer = null;
+  let countdownTimer = null;
+
+  // ===== Helpers =====
+  const setStage = (n) => {
+    stage = n;
+    stagePill.textContent = `${stage}/3`;
+    s1.style.display = stage >= 1 ? "block" : "none";
+    s2.style.display = stage >= 2 ? "block" : "none";
+    s3.style.display = stage >= 3 ? "block" : "none";
+
+    if(stage === 0){
+      statusHint.textContent = "Başla’ya basınca oyun açılır.";
+      statusMsg.textContent = "";
+    }
+    if(stage === 1){
+      statusHint.textContent = "Şifreyi bulunca 2. aşama açılır.";
+      statusMsg.textContent = `İpucu: ${MEET_DATE_TEXT} veya Bansko 😉`;
+    }
+    if(stage === 2){
+      statusHint.textContent = `${TOTAL_PAIRS} eşleşme yapınca 3. aşama açılır.`;
+      statusMsg.textContent = "Minik ipucu: Kartların hepsi sizden 💗";
+    }
+    if(stage === 3){
+      statusHint.textContent = "Kalpleri topla, final sürprizi açılır.";
+      statusMsg.textContent = "Hazır ol… finalde kalpler yağacak 💘";
+    }
+  };
+
+  const normalize = (s) =>
+    (s || "")
+      .toLowerCase()
+      .replaceAll("ı","i")
+      .replaceAll("ş","s")
+      .replaceAll("ğ","g")
+      .replaceAll("ü","u")
+      .replaceAll("ö","o")
+      .replaceAll("ç","c")
+      .replace(/\s+/g," ")
+      .trim();
+
+  const safePlayMusic = async () => {
+    try{
+      await bgm.play();
+      musicOn = true;
+      musicBtn.textContent = "🔊 Müzik";
+    }catch(e){
+      musicOn = false;
+      musicBtn.textContent = "🔈 Müzik";
+      statusMsg.textContent = "Telefonda müzik için: Başla’ya basınca deniyor; bazı cihazlar sessiz modda engelleyebilir.";
+    }
+  };
+
+  const toggleMusic = async () => {
+    if(musicOn){
+      bgm.pause();
+      musicOn = false;
+      musicBtn.textContent = "🔈 Müzik";
+    }else{
+      await safePlayMusic();
+    }
+  };
+
+  const shuffle = (arr) => {
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  };
+
+  // ===== Stage 1 (Password) =====
+  const checkPassword = () => {
+    const raw = passInput.value;
+    const n = normalize(raw);
+    const ok = MEET_PASSWORDS.some(p => normalize(p) === n);
+    if(ok){
+      passMsg.textContent = `Doğru 💌 Hoş geldin ${GIRL_NAME}…`;
+      setTimeout(() => {
+        initMemory();
+        setStage(2);
+      }, 600);
+    }else{
+      passMsg.textContent = "Olmadı 🙈 İpucu: 2 Şubat 2025 ya da “bansko”";
+    }
+  };
+
+  // ===== Stage 2 (Memory) =====
+  function initMemory(){
+    board.innerHTML = "";
+    boardMsg.textContent = "";
+    openTiles = [];
+    matched = 0;
+    matchCount.textContent = "0";
+
+    const pairs = [
+      {k:"bansko", icon:"⛷️", label:"Bansko"},
+      {k:"horse",  icon:"🏇", label:"Binicilik"},
+      {k:"cinema", icon:"🍿", label:"Sinema"},
+      {k:"luiss",  icon:"🇮🇹🎓", label:"Roma LUISS"},
+    ];
+
+    const tiles = shuffle([...pairs, ...pairs].map((p, idx) => ({
+      id: idx + "_" + p.k,
+      key: p.k,
+      icon: p.icon,
+      label: p.label
+    })));
+
+    tiles.forEach(t => {
+      const el = document.createElement("div");
+      el.className = "tile";
+      el.dataset.key = t.key;
+      el.innerHTML = `
+        <div aria-hidden="true">${t.icon}</div>
+        <div class="cover">AÇ</div>
+      `;
+      el.addEventListener("click", () => onTile(el));
+      board.appendChild(el);
+    });
+  }
+
+  function onTile(el){
+    if(el.classList.contains("matched")) return;
+    if(el.classList.contains("revealed")) return;
+    if(openTiles.length >= 2) return;
+
+    el.classList.add("revealed");
+    openTiles.push(el);
+
+    if(openTiles.length === 2){
+      const [a,b] = openTiles;
+      const same = a.dataset.key === b.dataset.key;
+      if(same){
+        a.classList.add("matched");
+        b.classList.add("matched");
+        openTiles = [];
+        matched++;
+        matchCount.textContent = String(matched);
+
+        const sweet =
+          matched === 1 ? "İlk anı tamam 💗" :
+          matched === 2 ? "İkinci anı da tamam 💞" :
+          matched === 3 ? "Üçüncü anı… çok tatlı 🥰" :
+          "Hepsi tamam… final yolu açıldı 💘";
+
+        boardMsg.textContent = sweet;
+
+        if(matched >= TOTAL_PAIRS){
+          setTimeout(() => setStage(3), 650);
+        }
+      }else{
+        boardMsg.textContent = "Ufak karıştı 😄 Tekrar dene.";
+        setTimeout(() => {
+          a.classList.remove("revealed");
+          b.classList.remove("revealed");
+          openTiles = [];
+        }, 650);
+      }
+    }
+  }
+
+  // ===== Stage 3 (Catch Hearts) =====
+  function resetCatch(){
+    catchRunning = false;
+    caught = 0;
+    timeLeft = 12;
+    caughtEl.textContent = "0";
+    timeLeftEl.textContent = "12";
+    catchMsg.textContent = "";
+    arena.innerHTML = "";
+    if(spawnTimer) clearInterval(spawnTimer);
+    if(countdownTimer) clearInterval(countdownTimer);
+  }
+
+  function spawnHeart(){
+    const el = document.createElement("div");
+    el.className = "heart";
+    el.textContent = Math.random() < 0.25 ? "💘" : "💗";
+
+    const x = Math.random() * (arena.clientWidth - 30);
+    el.style.left = x + "px";
+    el.style.top  = "-30px";
+
+    const speed = 2.0 + Math.random() * 2.8;
+    let y = -30;
+
+    const tick = () => {
+      if(!catchRunning){ el.remove(); return; }
+      y += speed;
+      el.style.top = y + "px";
+      if(y > arena.clientHeight + 40){
+        el.remove();
+        return;
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    el.addEventListener("click", () => {
+      if(!catchRunning) return;
+      caught++;
+      caughtEl.textContent = String(caught);
+      el.remove();
+      if(caught >= CATCH_GOAL){
+        finishGame();
+      }
+    });
+
+    arena.appendChild(el);
+  }
+
+  function startCatch(){
+    if(catchRunning) return;
+    resetCatch();
+    catchRunning = true;
+    catchMsg.textContent = "Başla! Kalplere tıkla 💖";
+
+    spawnTimer = setInterval(spawnHeart, 320);
+    countdownTimer = setInterval(() => {
+      timeLeft--;
+      timeLeftEl.textContent = String(timeLeft);
+      if(timeLeft <= 0){
+        endCatchFail();
+      }
+    }, 1000);
+  }
+
+  function endCatchFail(){
+    catchRunning = false;
+    if(spawnTimer) clearInterval(spawnTimer);
+    if(countdownTimer) clearInterval(countdownTimer);
+    catchMsg.textContent = "Az kaldı 😄 Tekrar dene!";
+  }
+
+  // ===== Final =====
+  function typeWriter(text){
+    typeEl.textContent = "";
+    let i = 0;
+    const t = setInterval(() => {
+      typeEl.textContent += text[i] || "";
+      i++;
+      if(i >= text.length) clearInterval(t);
+    }, 18);
+  }
+
+  function openFinal(){
+    modal.style.display = "grid";
+    typeWriter(FINAL_TEXT);
+    startHeartRain(320); // extra hearts
+  }
+
+  function closeFinal(){
+    modal.style.display = "none";
+    stopHeartRain();
+  }
+
+  function finishGame(){
+    catchRunning = false;
+    if(spawnTimer) clearInterval(spawnTimer);
+    if(countdownTimer) clearInterval(countdownTimer);
+    catchMsg.textContent = "Tamamlandı 💘 Final açılıyor...";
+    setTimeout(openFinal, 450);
+  }
+
+  // ===== Heart rain (canvas) =====
+  let rainOn = false;
+  let particles = [];
+  let rainRAF = null;
+
+  function resizeCanvas(){
+    rainCanvas.width = window.innerWidth * devicePixelRatio;
+    rainCanvas.height = window.innerHeight * devicePixelRatio;
+    rainCanvas.style.width = window.innerWidth + "px";
+    rainCanvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  }
+
+  function startHeartRain(count){
+    resizeCanvas();
+    rainCanvas.style.display = "block";
+    rainOn = true;
+    particles = [];
+    const emojis = ["💗","💖","💘","💕","💞"];
+    for(let i=0;i<count;i++){
+      particles.push({
+        x: Math.random()*window.innerWidth,
+        y: -Math.random()*window.innerHeight,
+        vy: 2 + Math.random()*5.5,
+        vx: -1 + Math.random()*2,
+        s: 16 + Math.random()*18,
+        r: Math.random()*Math.PI*2,
+        w: emojis[Math.floor(Math.random()*emojis.length)]
+      });
+    }
+    const loop = () => {
+      if(!rainOn) return;
+      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+      for(const p of particles){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.r += 0.02;
+        if(p.y > window.innerHeight + 40){
+          p.y = -40;
+          p.x = Math.random()*window.innerWidth;
+        }
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.font = `${p.s}px system-ui`;
+        ctx.fillText(p.w, 0, 0);
+        ctx.restore();
+      }
+      rainRAF = requestAnimationFrame(loop);
+    };
+    loop();
+  }
+
+  function stopHeartRain(){
+    rainOn = false;
+    rainCanvas.style.display = "none";
+    if(rainRAF) cancelAnimationFrame(rainRAF);
+  }
+
+  // ===== Controls =====
+  function resetAll(){
+    closeFinal();
+    resetCatch();
+    passInput.value = "";
+    passMsg.textContent = "";
+    boardMsg.textContent = "";
+    setStage(0);
+    statusMsg.textContent = "";
+  }
+
+  startBtn.addEventListener("click", async () => {
+    setStage(1);
+    statusMsg.textContent = `Hoş geldin ${GIRL_NAME} 💗 Şifreyi çözünce devam edecek.`;
+    await safePlayMusic(); // user gesture => music allowed
+    passInput.focus();
+  });
+
+  resetBtn.addEventListener("click", resetAll);
+  musicBtn.addEventListener("click", toggleMusic);
+  passBtn.addEventListener("click", checkPassword);
+  passInput.addEventListener("keydown", (e) => { if(e.key === "Enter") checkPassword(); });
+
+  catchStart.addEventListener("click", startCatch);
+
+  closeBtn.addEventListener("click", closeFinal);
+  againBtn.addEventListener("click", () => { closeFinal(); resetAll(); });
+
+  skipBtn.addEventListener("click", () => { initMemory(); setStage(3); });
+
+  window.addEventListener("resize", () => { if(rainOn) resizeCanvas(); });
+
+  resetAll();
+})();
+</script>
+</body>
+</html>
