@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-  <title>Bansko Slalom 💘</title>
+  <title>Bansko Slalom — Animasyonlu 💘</title>
   <style>
     :root{
       --bg1:#12051a; --bg2:#2b0b2a;
@@ -11,7 +11,7 @@
       --stroke:rgba(255,255,255,.14);
       --text:rgba(255,255,255,.92);
       --muted:rgba(255,255,255,.72);
-      --pink:#ff4d8d; --pink2:#ff79b0; --gold:#ffd6a6;
+      --pink:#ff4d8d; --pink2:#ff79b0;
     }
     *{box-sizing:border-box}
     body{
@@ -22,7 +22,6 @@
                   linear-gradient(160deg, var(--bg1), var(--bg2));
       min-height:100vh; overflow:hidden;
     }
-    .wrap{max-width:960px;margin:0 auto;padding:14px}
     .topbar{
       display:flex;align-items:center;justify-content:space-between;gap:10px;
       position:fixed;left:0;right:0;top:0;z-index:10;
@@ -32,11 +31,11 @@
     .brand{display:flex;align-items:center;gap:10px}
     .logo{
       width:38px;height:38px;border-radius:14px;
-      background: linear-gradient(135deg, var(--pink), #b14cff);
+      background: linear-gradient(135deg, #ff4d8d, #b14cff);
       box-shadow: 0 10px 30px rgba(255,77,141,.25);
       display:grid;place-items:center;font-size:20px;
     }
-    .title{margin:0;font-size:14px;letter-spacing:.2px}
+    .title{margin:0;font-size:14px}
     .sub{margin-top:2px;font-size:12px;color:var(--muted)}
     .hud{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
     .pill{
@@ -48,7 +47,7 @@
     .pill b{color:var(--text)}
     .btn{
       border:0; cursor:pointer; user-select:none;
-      padding:10px 12px;border-radius:14px;font-weight:800;
+      padding:10px 12px;border-radius:14px;font-weight:900;
       background: linear-gradient(135deg, var(--pink), var(--pink2));
       color:white;
       box-shadow: 0 12px 30px rgba(255,77,141,.22);
@@ -58,62 +57,45 @@
       border:1px solid var(--stroke);
       box-shadow:none;
     }
-    .btn:active{transform:translateY(1px)}
     .game{
       position:fixed; inset:0;
       padding-top:72px;
       display:grid; place-items:center;
     }
     canvas{
-      width:min(920px, 96vw);
-      height:min(620px, 78vh);
+      width:min(940px, 96vw);
+      height:min(640px, 78vh);
       border-radius:22px;
       background: rgba(0,0,0,.18);
       border:1px solid rgba(255,255,255,.14);
       box-shadow: 0 18px 40px rgba(0,0,0,.25);
-      touch-action: none;
+      touch-action:none;
     }
-
-    /* Mobile controls */
     .controls{
       position:fixed;left:0;right:0;bottom:10px;z-index:12;
-      display:flex;justify-content:center;gap:12px;
-      pointer-events:none;
+      display:flex;justify-content:center;gap:12px;pointer-events:none;
     }
     .pad{
       pointer-events:auto;
-      width:min(170px, 42vw);
-      padding:14px 14px;border-radius:18px;
+      width:min(180px, 44vw);
+      padding:14px;border-radius:18px;
       background: rgba(255,255,255,.10);
       border:1px solid rgba(255,255,255,.14);
       display:flex;align-items:center;justify-content:center;
-      font-weight:900; letter-spacing:.5px;
+      font-weight:900;
       user-select:none;
     }
     .pad:active{transform:scale(.99)}
     .tip{
       position:fixed;left:14px;right:14px;bottom:74px;z-index:11;
-      max-width:960px;margin:0 auto;
-      color:var(--muted);font-size:12px;
-      text-align:center;
-      opacity:.95;
+      color:var(--muted);font-size:12px;text-align:center;
     }
 
     /* Modal */
-    .modal{
-      position:fixed;inset:0;display:none;place-items:center;
-      background: rgba(0,0,0,.6); z-index:20; padding:16px;
-    }
-    .card{
-      max-width:760px;width:100%;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:22px;
-      padding:16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.3);
-    }
+    .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.6);z-index:20;padding:16px}
+    .card{max-width:760px;width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.3)}
     .card h2{margin:0;font-size:18px}
-    .card p{margin:10px 0 0;color:var(--muted);line-height:1.6}
+    .card p{margin:10px 0 0;color:var(--muted);line-height:1.6;white-space:pre-wrap}
     .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
     .tiny{font-size:12px;color:var(--muted);margin-top:10px}
 
@@ -127,12 +109,13 @@
     <div class="brand">
       <div class="logo">⛷️</div>
       <div>
-        <p class="title">Bansko Slalom</p>
-        <div class="sub">Kapılardan geç • Engellerden kaç • Level atla • Finalde sürpriz 💘</div>
+        <p class="title">Bansko Slalom — Animasyonlu</p>
+        <div class="sub">Kar • Hız • Combo • Finalde sürpriz 💘</div>
       </div>
     </div>
     <div class="hud">
       <div class="pill">Skor: <b id="score">0</b></div>
+      <div class="pill">Combo: <b id="combo">x1</b></div>
       <div class="pill">Level: <b id="level">1</b></div>
       <div class="pill">Can: <b id="lives">3</b></div>
       <button class="btn secondary" id="musicBtn">🔈 Müzik</button>
@@ -141,10 +124,10 @@
   </div>
 
   <div class="game">
-    <canvas id="c" width="920" height="620"></canvas>
+    <canvas id="c" width="940" height="640"></canvas>
   </div>
 
-  <div class="tip" id="tip">Telefon: alttaki ◀ ▶ ile kay. Bilgisayar: ← →. Kapılardan (kırmızı/mavi) geç, çamlara çarpma.</div>
+  <div class="tip" id="tip">Telefon: ◀ ▶ • PC: ← → • Kapılardan geç (kırmızı/mavi), çamlara çarpma.</div>
 
   <div class="controls">
     <div class="pad" id="leftPad">◀ SOL</div>
@@ -159,20 +142,18 @@
         <button class="btn" id="playAgain">Tekrar Oyna</button>
         <button class="btn secondary" id="closeModal">Kapat</button>
       </div>
-      <div class="tiny">Şarkı için repoya <b>song.mp3</b> yüklediysen, “Müzik” butonuyla açılacak (telefon kuralı).</div>
+      <div class="tiny">Şarkı: repo köküne <b>song.mp3</b> koyduysan “Müzik” ile açılır.</div>
     </div>
   </div>
 
-  <!-- optional music (put song.mp3 in repo root) -->
   <audio id="bgm" loop>
     <source src="song.mp3" type="audio/mpeg" />
   </audio>
 
 <script>
 (() => {
-  // ====== Personalization ======
   const GIRL_NAME = "İzgi";
-  const FINAL_SCORE_TO_WIN = 120; // final açma eşiği (istersen düşürürüz)
+  const FINAL_SCORE_TO_WIN = 140;
 
   const FINAL_TEXT =
 `İzgi 💘
@@ -180,17 +161,17 @@
 Bansko’da birlikte kaydığımız o an…
 benim için hâlâ en güzel “başlangıç”lardan.
 
-Senin hayallerin de benim için oyun değil — gerçek.
-Roma’da LUISS master hedefini birlikte kutlayacağız. 🇮🇹🎓
+Roma’da LUISS master hayalini
+birlikte kutlayacağız. 🇮🇹🎓
 
 Sevgililer günün kutlu olsun.
 İyi ki varsın. 💗`;
 
-  // ====== Canvas setup ======
   const canvas = document.getElementById("c");
   const ctx = canvas.getContext("2d");
 
   const scoreEl = document.getElementById("score");
+  const comboEl = document.getElementById("combo");
   const levelEl = document.getElementById("level");
   const livesEl = document.getElementById("lives");
   const startBtn = document.getElementById("startBtn");
@@ -211,8 +192,7 @@ Sevgililer günün kutlu olsun.
   // Heart rain
   const rainCanvas = document.getElementById("rain");
   const rctx = rainCanvas.getContext("2d");
-  let rainOn = false, particles = [], rainRAF = null;
-
+  let rainOn=false, particles=[], rainRAF=null;
   function resizeRain(){
     rainCanvas.width = window.innerWidth * devicePixelRatio;
     rainCanvas.height = window.innerHeight * devicePixelRatio;
@@ -220,428 +200,473 @@ Sevgililer günün kutlu olsun.
     rainCanvas.style.height = window.innerHeight + "px";
     rctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
   }
-  function startHeartRain(count=280){
-    resizeRain();
-    rainCanvas.style.display = "block";
-    rainOn = true;
-    particles = [];
-    const emojis = ["💗","💖","💘","💕","💞"];
+  function startHeartRain(count=340){
+    resizeRain(); rainCanvas.style.display="block"; rainOn=true; particles=[];
+    const emojis=["💗","💖","💘","💕","💞"];
     for(let i=0;i<count;i++){
       particles.push({
-        x: Math.random()*window.innerWidth,
-        y: -Math.random()*window.innerHeight,
-        vy: 2 + Math.random()*5.5,
-        vx: -1 + Math.random()*2,
-        s: 16 + Math.random()*18,
-        r: Math.random()*Math.PI*2,
-        w: emojis[Math.floor(Math.random()*emojis.length)]
+        x:Math.random()*window.innerWidth,
+        y:-Math.random()*window.innerHeight,
+        vy:2+Math.random()*5.8,
+        vx:-1+Math.random()*2,
+        s:16+Math.random()*18,
+        r:Math.random()*Math.PI*2,
+        w:emojis[Math.floor(Math.random()*emojis.length)]
       });
     }
-    const loop = () => {
+    const loop=()=>{
       if(!rainOn) return;
       rctx.clearRect(0,0,window.innerWidth,window.innerHeight);
       for(const p of particles){
-        p.x += p.vx; p.y += p.vy; p.r += 0.02;
-        if(p.y > window.innerHeight + 40){ p.y = -40; p.x = Math.random()*window.innerWidth; }
-        rctx.save();
-        rctx.translate(p.x, p.y);
-        rctx.rotate(p.r);
-        rctx.font = `${p.s}px system-ui`;
-        rctx.fillText(p.w, 0, 0);
-        rctx.restore();
+        p.x+=p.vx; p.y+=p.vy; p.r+=0.02;
+        if(p.y>window.innerHeight+40){p.y=-40; p.x=Math.random()*window.innerWidth}
+        rctx.save(); rctx.translate(p.x,p.y); rctx.rotate(p.r);
+        rctx.font=`${p.s}px system-ui`; rctx.fillText(p.w,0,0); rctx.restore();
       }
-      rainRAF = requestAnimationFrame(loop);
+      rainRAF=requestAnimationFrame(loop);
     };
     loop();
   }
   function stopHeartRain(){
-    rainOn = false;
-    rainCanvas.style.display = "none";
+    rainOn=false; rainCanvas.style.display="none";
     if(rainRAF) cancelAnimationFrame(rainRAF);
   }
 
-  // ====== Game state ======
+  // ===== Game state =====
   const W = canvas.width, H = canvas.height;
 
   const player = {
-    x: W/2, y: H*0.78,
-    w: 32, h: 40,
-    vx: 0,
-    maxSpeed: 6.2,
+    x: W/2, y: H*0.80,
+    vx: 0, tilt: 0,
+    maxSpeed: 7.0,
   };
 
-  let running = false;
-  let score = 0;
-  let level = 1;
-  let lives = 3;
+  // snow particles
+  const snow = Array.from({length: 140}, () => ({
+    x: Math.random()*W,
+    y: Math.random()*H,
+    s: 1 + Math.random()*2.2,
+    v: 1.2 + Math.random()*2.4,
+    drift: -0.8 + Math.random()*1.6
+  }));
 
-  let t = 0;
-  let laneCenter = W/2;      // slalom path center
-  let laneWidth = 250;       // gates span
-  let speed = 3.2;           // world scroll speed
-  let spawnCd = 0;
+  let running=false;
+  let score=0;
+  let level=1;
+  let lives=3;
+  let combo=1;
+  let comboTimer=0;
 
-  let objects = []; // gates + trees + bonus
-  let inputLeft = false;
-  let inputRight = false;
+  let t=0;
+  let laneCenter=W/2;
+  let laneWidth=260;
+  let speed=3.2;
+  let spawnCd=0;
+
+  let objects=[];
+  let inputLeft=false, inputRight=false;
+
+  // fx bursts
+  let bursts=[]; // {x,y,a,life}
 
   function resetGame(){
-    running = false;
-    score = 0;
-    level = 1;
-    lives = 3;
-    t = 0;
-    laneCenter = W/2;
-    laneWidth = 250;
-    speed = 3.2;
-    spawnCd = 0;
-    objects = [];
-    player.x = W/2;
-    player.vx = 0;
+    running=false;
+    score=0; level=1; lives=3;
+    combo=1; comboTimer=0;
+    t=0; laneCenter=W/2; laneWidth=260; speed=3.2; spawnCd=0;
+    objects=[]; bursts=[];
+    player.x=W/2; player.vx=0; player.tilt=0;
     syncHUD();
-    tip.textContent = "Başlat’a bas. Kapılardan (kırmızı/mavi) geç, çamlara çarpma.";
+    tip.textContent="Başlat’a bas. Kapılardan geç, combo yap, çamlara çarpma.";
   }
 
   function syncHUD(){
     scoreEl.textContent = Math.floor(score);
+    comboEl.textContent = "x" + combo;
     levelEl.textContent = level;
     livesEl.textContent = lives;
   }
 
   function showModal(title, text){
-    modalTitle.textContent = title;
-    modalText.textContent = text;
-    modal.style.display = "grid";
+    modalTitle.textContent=title;
+    modalText.textContent=text;
+    modal.style.display="grid";
   }
-  function hideModal(){
-    modal.style.display = "none";
-  }
+  function hideModal(){ modal.style.display="none"; }
 
-  // ====== Spawning ======
-  function spawnGateRow(){
-    // slalom center wiggles
-    laneCenter += Math.sin(t/40) * 14 + (Math.random()-0.5)*30;
-    laneCenter = Math.max(160, Math.min(W-160, laneCenter));
-
-    const gap = Math.max(110, laneWidth - level*12);
-    const leftX = laneCenter - gap/2;
-    const rightX = laneCenter + gap/2;
-
-    // Gate posts
-    objects.push({type:"gateL", x:leftX, y:-40, r:16, hit:false});
-    objects.push({type:"gateR", x:rightX, y:-40, r:16, hit:false});
-
-    // One random obstacle (tree) near edge
-    if(Math.random() < 0.65){
-      const side = Math.random() < 0.5 ? -1 : 1;
-      const ox = laneCenter + side*(gap/2 + 70 + Math.random()*80);
-      objects.push({type:"tree", x:ox, y:-40, r:18, hit:false});
-    }
-
-    // Sometimes a bonus heart in the middle
-    if(Math.random() < 0.28){
-      objects.push({type:"heart", x: laneCenter + (Math.random()-0.5)*90, y:-40, r:18, hit:false});
-    }
-  }
-
-  // ====== Collisions ======
-  function dist(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.hypot(dx,dy); }
-
-  function collideCircle(px, py, pr, obj){
-    return Math.hypot(px-obj.x, py-obj.y) < (pr + obj.r);
+  function flashBurst(x,y){
+    bursts.push({x,y,a:1,life:22});
   }
 
   function damage(){
     lives--;
+    combo=1; comboTimer=0;
     syncHUD();
-    // tiny screen flash
-    flash = 1;
-    if(lives <= 0){
-      endGame(false);
-    }
+    if(lives<=0) endGame(false);
   }
 
   function endGame(won){
-    running = false;
+    running=false;
     if(won){
-      startHeartRain(320);
+      startHeartRain(380);
       showModal("Final 💘", FINAL_TEXT);
-    } else {
+    }else{
       showModal("Oyun Bitti 😄", `Skor: ${Math.floor(score)}\n\nTekrar dener misin? Bu sefer ${GIRL_NAME} için kazan 💘`);
     }
   }
 
-  // ====== Rendering ======
-  let flash = 0;
+  // ===== Spawning =====
+  function spawnGateRow(){
+    laneCenter += Math.sin(t/38)*16 + (Math.random()-0.5)*34;
+    laneCenter = Math.max(160, Math.min(W-160, laneCenter));
 
+    const gap = Math.max(120, laneWidth - level*12);
+    const leftX = laneCenter - gap/2;
+    const rightX = laneCenter + gap/2;
+
+    const y = -50;
+    const rowId = Math.random().toString(16).slice(2);
+
+    objects.push({type:"gateL", x:leftX, y, r:16, rowId, scored:false});
+    objects.push({type:"gateR", x:rightX, y, r:16, rowId, scored:false});
+
+    if(Math.random() < 0.70){
+      const side = Math.random()<0.5 ? -1 : 1;
+      const ox = laneCenter + side*(gap/2 + 80 + Math.random()*90);
+      objects.push({type:"tree", x:ox, y, r:18});
+    }
+
+    if(Math.random() < 0.28){
+      objects.push({type:"heart", x: laneCenter + (Math.random()-0.5)*100, y, r:18});
+    }
+  }
+
+  // ===== Drawing helpers =====
   function drawBackground(){
-    // snow gradient
+    // slope gradient
     const g = ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,"rgba(255,255,255,.08)");
+    g.addColorStop(0,"rgba(255,255,255,.09)");
     g.addColorStop(1,"rgba(0,0,0,.18)");
     ctx.fillStyle = g;
     ctx.fillRect(0,0,W,H);
 
-    // soft vignette
-    ctx.fillStyle = "rgba(0,0,0,.12)";
+    // vignette
+    ctx.fillStyle = "rgba(0,0,0,.10)";
     ctx.fillRect(0,0,W,H);
   }
 
-  function drawSlopeLines(){
+  function drawSnow(){
     ctx.save();
-    ctx.globalAlpha = 0.35;
-    ctx.strokeStyle = "rgba(255,255,255,.22)";
+    ctx.globalAlpha = 0.75;
+    ctx.fillStyle = "rgba(255,255,255,.55)";
+    for(const p of snow){
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function updateSnow(){
+    for(const p of snow){
+      p.y += p.v + speed*0.22;
+      p.x += p.drift + player.vx*0.05;
+      if(p.y > H+10){ p.y = -10; p.x = Math.random()*W; }
+      if(p.x < -10) p.x = W+10;
+      if(p.x > W+10) p.x = -10;
+    }
+  }
+
+  function drawSpeedLines(){
+    ctx.save();
+    ctx.globalAlpha = 0.22;
+    ctx.strokeStyle = "rgba(255,255,255,.35)";
     ctx.lineWidth = 2;
-    for(let i=0;i<10;i++){
-      const y = (i*80 + (t*speed)%80);
+    for(let i=0;i<14;i++){
+      const x = (i*80 + (t*3)%80);
       ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(W, y+30);
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x-30, H);
       ctx.stroke();
     }
     ctx.restore();
   }
 
-  function drawPlayer(){
-    // skier body
-    ctx.save();
-    ctx.translate(player.x, player.y);
-    ctx.fillStyle = "rgba(255,255,255,.9)";
-    ctx.beginPath();
-    ctx.roundRect(-player.w/2, -player.h/2, player.w, player.h, 10);
-    ctx.fill();
-
-    // scarf
-    ctx.fillStyle = "rgba(255,77,141,.85)";
-    ctx.fillRect(-player.w/2, -player.h/2 + 10, player.w, 6);
-
-    // skis
-    ctx.strokeStyle = "rgba(255,214,166,.75)";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(-18, player.h/2 - 2);
-    ctx.lineTo(-30, player.h/2 + 12);
-    ctx.moveTo(18, player.h/2 - 2);
-    ctx.lineTo(30, player.h/2 + 12);
-    ctx.stroke();
-
-    ctx.restore();
-  }
-
-  function drawObj(o){
-    if(o.type === "gateL" || o.type === "gateR"){
-      const isL = o.type === "gateL";
-      ctx.save();
-      ctx.translate(o.x, o.y);
-      // pole
-      ctx.strokeStyle = isL ? "rgba(255,90,90,.95)" : "rgba(90,170,255,.95)";
-      ctx.lineWidth = 5;
-      ctx.beginPath();
-      ctx.moveTo(0,-18);
-      ctx.lineTo(0,22);
-      ctx.stroke();
-      // flag
-      ctx.fillStyle = isL ? "rgba(255,90,90,.75)" : "rgba(90,170,255,.75)";
-      ctx.beginPath();
-      ctx.moveTo(0,-10);
-      ctx.lineTo(isL ? -26 : 26, -2);
-      ctx.lineTo(0, 6);
-      ctx.closePath();
-      ctx.fill();
-      ctx.restore();
-      return;
-    }
-    if(o.type === "tree"){
-      ctx.save();
-      ctx.translate(o.x, o.y);
-      ctx.fillStyle = "rgba(60, 200, 140, .75)";
-      ctx.beginPath();
-      ctx.moveTo(0,-24);
-      ctx.lineTo(-18,14);
-      ctx.lineTo(18,14);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillStyle = "rgba(255,255,255,.35)";
-      ctx.beginPath();
-      ctx.arc(0,18,6,0,Math.PI*2);
-      ctx.fill();
-      ctx.restore();
-      return;
-    }
-    if(o.type === "heart"){
-      ctx.save();
-      ctx.translate(o.x, o.y);
-      ctx.font = "28px system-ui";
-      ctx.fillText("💘", -14, 10);
-      ctx.restore();
-      return;
-    }
-  }
-
-  function drawFlash(){
-    if(flash <= 0) return;
-    ctx.save();
-    ctx.globalAlpha = 0.18 * flash;
-    ctx.fillStyle = "rgba(255,77,141,1)";
-    ctx.fillRect(0,0,W,H);
-    ctx.restore();
-  }
-
-  // ====== Update loop ======
-  function update(){
-    if(!running) return;
-
-    // difficulty scaling
-    level = 1 + Math.floor(score / 40);
-    level = Math.min(level, 7);
-    speed = 3.2 + level*0.55;
-    laneWidth = 250 - level*10;
-    player.maxSpeed = 6.2 + level*0.2;
-
-    // input
-    const accel = 0.55;
-    if(inputLeft && !inputRight) player.vx -= accel;
-    if(inputRight && !inputLeft) player.vx += accel;
-    if(!inputLeft && !inputRight) player.vx *= 0.85;
-
-    player.vx = Math.max(-player.maxSpeed, Math.min(player.maxSpeed, player.vx));
-    player.x += player.vx;
-
-    // boundaries
-    const margin = 48;
-    if(player.x < margin){ player.x = margin; player.vx = 0; }
-    if(player.x > W-margin){ player.x = W-margin; player.vx = 0; }
-
-    // spawn rows
-    spawnCd -= 1;
-    if(spawnCd <= 0){
-      spawnGateRow();
-      spawnCd = Math.max(16, 34 - level*2); // more frequent with level
-    }
-
-    // move objects
-    for(const o of objects) o.y += speed;
-
-    // collisions
-    const pr = 16;
-    for(const o of objects){
-      if(o.hit) continue;
-
-      // score gates: pass between them (simple: when reaching player.y line)
-      if((o.type === "gateL" || o.type === "gateR") && o.y > player.y && !o.hit){
-        // only count once per pair by checking both posts close in y
-        // mark hit to avoid repeats
-        o.hit = true;
-      }
-
-      // hit trees
-      if(o.type === "tree"){
-        if(collideCircle(player.x, player.y, pr, o)){
-          o.hit = true;
-          damage();
-        }
-      }
-
-      // collect heart
-      if(o.type === "heart"){
-        if(collideCircle(player.x, player.y, pr, o)){
-          o.hit = true;
-          score += 8; // bonus
-        }
-      }
-    }
-
-    // gate scoring: count each gate row when both posts pass player line and player was within gap
-    // We'll detect by finding pairs that crossed line this frame:
-    // Simple approach: score for each "gateL" that crosses below player and near a "gateR"
-    // Keep a marker on gateL only.
-    for(const o of objects){
-      if(o.type !== "gateL" || o.scored) continue;
-      if(o.y >= player.y){
-        // find matching right post close in y
-        const right = objects.find(r => r.type==="gateR" && !r.scored && Math.abs(r.y - o.y) < 6);
-        if(right){
-          o.scored = true; right.scored = true;
-          const gapMin = Math.min(o.x, right.x);
-          const gapMax = Math.max(o.x, right.x);
-          if(player.x > gapMin && player.x < gapMax){
-            score += 10;
-          } else {
-            // missed gate: small penalty + mild wobble
-            score = Math.max(0, score - 3);
-          }
-        }
-      }
-    }
-
-    // cleanup
-    objects = objects.filter(o => o.y < H + 80);
-
-    // score tick
-    score += 0.08 * level;
-    syncHUD();
-
-    // win condition
-    if(score >= FINAL_SCORE_TO_WIN){
-      endGame(true);
-    }
-
-    // flash decay
-    flash *= 0.9;
-  }
-
-  function render(){
-    ctx.clearRect(0,0,W,H);
-    drawBackground();
-    drawSlopeLines();
-
-    // draw lane hint
+  function drawLaneHint(){
     ctx.save();
     ctx.globalAlpha = 0.22;
     ctx.strokeStyle = "rgba(255,255,255,.25)";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(laneCenter - laneWidth/2, 0);
-    ctx.lineTo(laneCenter - laneWidth/2 + 30, H);
+    ctx.lineTo(laneCenter - laneWidth/2 + 40, H);
     ctx.moveTo(laneCenter + laneWidth/2, 0);
-    ctx.lineTo(laneCenter + laneWidth/2 + 30, H);
+    ctx.lineTo(laneCenter + laneWidth/2 + 40, H);
     ctx.stroke();
     ctx.restore();
+  }
 
-    // objects
+  function drawObj(o){
+    if(o.type==="gateL" || o.type==="gateR"){
+      const isL = o.type==="gateL";
+      ctx.save();
+      ctx.translate(o.x, o.y);
+      ctx.strokeStyle = isL ? "rgba(255,90,90,.95)" : "rgba(90,170,255,.95)";
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(0,-18);
+      ctx.lineTo(0,26);
+      ctx.stroke();
+
+      // flag with tiny wave
+      const w = 28 + Math.sin((t+o.x)/12)*2;
+      ctx.fillStyle = isL ? "rgba(255,90,90,.70)" : "rgba(90,170,255,.70)";
+      ctx.beginPath();
+      ctx.moveTo(0,-10);
+      ctx.lineTo(isL ? -w : w, -2);
+      ctx.lineTo(0, 8);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+      return;
+    }
+    if(o.type==="tree"){
+      ctx.save();
+      ctx.translate(o.x,o.y);
+      ctx.fillStyle="rgba(60,200,140,.78)";
+      ctx.beginPath();
+      ctx.moveTo(0,-26);
+      ctx.lineTo(-20,16);
+      ctx.lineTo(20,16);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle="rgba(255,255,255,.35)";
+      ctx.beginPath(); ctx.arc(0,20,6,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+      return;
+    }
+    if(o.type==="heart"){
+      ctx.save();
+      ctx.translate(o.x,o.y);
+      ctx.font="30px system-ui";
+      ctx.fillText("💘",-15,10);
+      ctx.restore();
+    }
+  }
+
+  function drawPlayer(){
+    // tilt based on velocity
+    player.tilt += ((player.vx / player.maxSpeed) - player.tilt) * 0.12;
+
+    ctx.save();
+    ctx.translate(player.x, player.y);
+    ctx.rotate(player.tilt * 0.35);
+
+    // shadow
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = "rgba(0,0,0,.6)";
+    ctx.beginPath();
+    ctx.ellipse(0, 22, 20, 7, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // body
+    ctx.fillStyle = "rgba(255,255,255,.92)";
+    roundRect(-18,-24,36,48,12);
+    ctx.fill();
+
+    // scarf
+    ctx.fillStyle = "rgba(255,77,141,.85)";
+    ctx.fillRect(-18,-6,36,6);
+
+    // head
+    ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.beginPath(); ctx.arc(0,-28,10,0,Math.PI*2); ctx.fill();
+
+    // skis
+    ctx.strokeStyle = "rgba(255,214,166,.85)";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-14, 22); ctx.lineTo(-32, 42);
+    ctx.moveTo(14, 22);  ctx.lineTo(32, 42);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawBursts(){
+    ctx.save();
+    for(const b of bursts){
+      ctx.globalAlpha = b.a;
+      ctx.fillStyle = "rgba(255,77,141,.25)";
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 26 - (22-b.life)*0.5, 0, Math.PI*2);
+      ctx.fill();
+
+      ctx.fillStyle = "rgba(255,255,255,.6)";
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 10, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function updateBursts(){
+    bursts = bursts.filter(b => b.life > 0);
+    for(const b of bursts){
+      b.life--;
+      b.a *= 0.92;
+    }
+  }
+
+  function roundRect(x,y,w,h,r){
+    r = Math.min(r, w/2, h/2);
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  // ===== Update loop =====
+  function update(){
+    if(!running) return;
+
+    level = 1 + Math.floor(score / 55);
+    level = Math.min(level, 8);
+    speed = 3.0 + level*0.6;
+    laneWidth = 270 - level*12;
+    player.maxSpeed = 7.0 + level*0.2;
+
+    // combo decay
+    if(comboTimer > 0) comboTimer--;
+    if(comboTimer === 0) combo = 1;
+
+    // input
+    const accel = 0.62;
+    if(inputLeft && !inputRight) player.vx -= accel;
+    if(inputRight && !inputLeft) player.vx += accel;
+    if(!inputLeft && !inputRight) player.vx *= 0.84;
+
+    player.vx = Math.max(-player.maxSpeed, Math.min(player.maxSpeed, player.vx));
+    player.x += player.vx;
+
+    // boundaries
+    const margin = 56;
+    if(player.x < margin){ player.x = margin; player.vx = 0; }
+    if(player.x > W-margin){ player.x = W-margin; player.vx = 0; }
+
+    // spawn
+    spawnCd -= 1;
+    if(spawnCd <= 0){
+      spawnGateRow();
+      spawnCd = Math.max(14, 32 - level*2);
+    }
+
+    // move objects
+    for(const o of objects) o.y += speed;
+
+    // collisions & scoring by row
+    const pr = 16;
+    // group by rowId at scoring line
+    const gateLs = objects.filter(o => o.type==="gateL" && !o.scored && o.y >= player.y);
+    for(const gl of gateLs){
+      const gr = objects.find(o => o.type==="gateR" && o.rowId===gl.rowId && !o.scored && Math.abs(o.y - gl.y) < 8);
+      if(!gr) continue;
+      gl.scored = true; gr.scored = true;
+
+      const minX = Math.min(gl.x, gr.x);
+      const maxX = Math.max(gl.x, gr.x);
+
+      if(player.x > minX && player.x < maxX){
+        // success
+        combo = Math.min(6, combo + 1);
+        comboTimer = 90; // keep combo alive
+        const gain = 10 * combo;
+        score += gain;
+        flashBurst(laneCenter, player.y - 90);
+      }else{
+        // miss
+        combo = 1; comboTimer = 0;
+        score = Math.max(0, score - 4);
+      }
+    }
+
+    // trees + hearts
+    for(const o of objects){
+      if(o.hit) continue;
+
+      if(o.type==="tree"){
+        if(Math.hypot(player.x-o.x, player.y-o.y) < (pr + o.r)){
+          o.hit = true;
+          damage();
+        }
+      }
+      if(o.type==="heart"){
+        if(Math.hypot(player.x-o.x, player.y-o.y) < (pr + o.r)){
+          o.hit = true;
+          score += 12;
+          flashBurst(o.x, o.y);
+        }
+      }
+    }
+
+    objects = objects.filter(o => o.y < H + 90);
+
+    // passive score
+    score += 0.06 * level;
+    syncHUD();
+
+    updateSnow();
+    updateBursts();
+
+    if(score >= FINAL_SCORE_TO_WIN){
+      endGame(true);
+    }
+  }
+
+  function render(){
+    ctx.clearRect(0,0,W,H);
+
+    drawBackground();
+    drawSpeedLines();
+    drawLaneHint();
+    drawSnow();
+
     for(const o of objects) drawObj(o);
 
+    drawBursts();
     drawPlayer();
-    drawFlash();
 
-    // overlay text when not running
     if(!running){
       ctx.save();
-      ctx.fillStyle = "rgba(0,0,0,.25)";
+      ctx.fillStyle = "rgba(0,0,0,.28)";
       ctx.fillRect(0,0,W,H);
       ctx.fillStyle = "rgba(255,255,255,.95)";
       ctx.textAlign = "center";
-      ctx.font = "700 34px system-ui";
+      ctx.font = "900 34px system-ui";
       ctx.fillText("Bansko Slalom", W/2, H/2 - 34);
-      ctx.font = "600 16px system-ui";
+      ctx.font = "700 16px system-ui";
       ctx.fillStyle = "rgba(255,255,255,.78)";
-      ctx.fillText("Başlat'a bas • Kapılardan geç • Çamlara çarpma", W/2, H/2 + 6);
-      ctx.fillText("Telefon: alttaki ◀ ▶ • PC: ← →", W/2, H/2 + 30);
+      ctx.fillText("Başlat • Kapılardan geç • Combo yap • Çamlara çarpma", W/2, H/2 + 6);
+      ctx.fillText("Telefon: ◀ ▶  |  PC: ← →", W/2, H/2 + 30);
       ctx.restore();
     }
   }
 
   function loop(){
+    t++;
     update();
     render();
     requestAnimationFrame(loop);
   }
 
-  // ====== Input ======
+  // ===== Input =====
   function setPad(el, on){
-    el.style.background = on ? "rgba(255,255,255,.16)" : "rgba(255,255,255,.10)";
+    el.style.background = on ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.10)";
   }
-
   const down = (side) => (e) => { e.preventDefault(); e.stopPropagation();
     if(side==="L"){ inputLeft=true; setPad(leftPad,true); }
     if(side==="R"){ inputRight=true; setPad(rightPad,true); }
@@ -670,37 +695,28 @@ Sevgililer günün kutlu olsun.
     if(e.key === "ArrowRight") inputRight = false;
   });
 
-  // ====== Buttons ======
+  // ===== Buttons =====
   async function playMusic(){
-    try{
-      await bgm.play();
-      musicBtn.textContent = "🔊 Müzik";
-      return true;
-    }catch{ return false; }
+    try{ await bgm.play(); musicBtn.textContent="🔊 Müzik"; return true; }
+    catch{ return false; }
   }
-  function stopMusic(){
-    bgm.pause();
-    musicBtn.textContent = "🔈 Müzik";
-  }
+  function stopMusic(){ bgm.pause(); musicBtn.textContent="🔈 Müzik"; }
 
   startBtn.addEventListener("click", async () => {
     stopHeartRain();
     hideModal();
-    // user gesture -> allow audio
-    await playMusic();
+    await playMusic(); // user gesture allows audio
     if(!running){
       running = true;
-      tip.textContent = "Kapılardan geç! 💙❤️  Kalp bonuslarını topla 💘";
+      tip.textContent = "Kapılardan geç! Combo yaparsan skor uçar 💘";
     }
   });
 
   musicBtn.addEventListener("click", async () => {
     if(bgm.paused){
       const ok = await playMusic();
-      if(!ok) tip.textContent = "Müzik başlamadıysa: telefon sessiz modda olabilir. Yine de oyun çalışır.";
-    }else{
-      stopMusic();
-    }
+      if(!ok) tip.textContent = "Müzik başlamadıysa: sessiz mod olabilir. Oyun yine çalışır.";
+    }else stopMusic();
   });
 
   playAgain.addEventListener("click", () => {
@@ -708,7 +724,7 @@ Sevgililer günün kutlu olsun.
     hideModal();
     resetGame();
     running = true;
-    tip.textContent = "Hadi bir daha! Bu sefer daha yüksek skor 💘";
+    tip.textContent = "Hadi tekrar! Bu sefer combo’yu büyüt 💘";
   });
 
   closeModal.addEventListener("click", () => {
@@ -718,26 +734,21 @@ Sevgililer günün kutlu olsun.
 
   window.addEventListener("resize", () => { if(rainOn) resizeRain(); });
 
-  // Start
+  // init
   resetGame();
   loop();
 
-  // Polyfill for roundRect (older browsers)
-  if(!CanvasRenderingContext2D.prototype.roundRect){
-    CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
-      r = Math.min(r, w/2, h/2);
-      this.beginPath();
-      this.moveTo(x+r,y);
-      this.arcTo(x+w,y,x+w,y+h,r);
-      this.arcTo(x+w,y+h,x,y+h,r);
-      this.arcTo(x,y+h,x,y,r);
-      this.arcTo(x,y,x+w,y,r);
-      this.closePath();
-      return this;
-    };
+  function resetGame(){
+    running=false;
+    score=0; level=1; lives=3;
+    combo=1; comboTimer=0;
+    t=0; laneCenter=W/2; laneWidth=260; speed=3.2; spawnCd=0;
+    objects=[]; bursts=[];
+    player.x=W/2; player.vx=0; player.tilt=0;
+    syncHUD();
+    tip.textContent="Başlat’a bas. Kapılardan geç, combo yap, çamlara çarpma.";
   }
 })();
 </script>
 </body>
 </html>
-
