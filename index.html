@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>İzgi 💘 Sevgililer Günü</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+  <title>Bansko Slalom 💘</title>
   <style>
     :root{
       --bg1:#12051a; --bg2:#2b0b2a;
@@ -20,623 +20,208 @@
       background: radial-gradient(1200px 800px at 20% 10%, #3a0f3e 0%, transparent 55%),
                   radial-gradient(900px 600px at 90% 30%, #2a0e3f 0%, transparent 60%),
                   linear-gradient(160deg, var(--bg1), var(--bg2));
-      min-height:100vh; overflow-x:hidden;
+      min-height:100vh; overflow:hidden;
     }
-    .wrap{max-width:980px;margin:0 auto;padding:18px}
+    .wrap{max-width:960px;margin:0 auto;padding:14px}
     .topbar{
-      display:flex;gap:10px;align-items:center;justify-content:space-between;
-      position:sticky;top:0;z-index:10;padding:12px 0;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      position:fixed;left:0;right:0;top:0;z-index:10;
+      padding:12px 14px;
       backdrop-filter: blur(10px);
     }
-    .brand{display:flex;gap:10px;align-items:center;}
+    .brand{display:flex;align-items:center;gap:10px}
     .logo{
       width:38px;height:38px;border-radius:14px;
       background: linear-gradient(135deg, var(--pink), #b14cff);
       box-shadow: 0 10px 30px rgba(255,77,141,.25);
       display:grid;place-items:center;font-size:20px;
     }
-    .brand h1{font-size:15px;margin:0;letter-spacing:.2px}
-    .brand .sub{font-size:12px;color:var(--muted);margin-top:2px}
-    .pillrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .title{margin:0;font-size:14px;letter-spacing:.2px}
+    .sub{margin-top:2px;font-size:12px;color:var(--muted)}
+    .hud{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
     .pill{
       padding:8px 10px;border-radius:999px;
       background: var(--card); border:1px solid var(--stroke);
       color:var(--muted); font-size:12px;
+      display:flex;gap:6px;align-items:center;
     }
+    .pill b{color:var(--text)}
     .btn{
       border:0; cursor:pointer; user-select:none;
-      padding:10px 12px;border-radius:14px;font-weight:700;
+      padding:10px 12px;border-radius:14px;font-weight:800;
       background: linear-gradient(135deg, var(--pink), var(--pink2));
       color:white;
       box-shadow: 0 12px 30px rgba(255,77,141,.22);
     }
-    .btn:active{transform:translateY(1px)}
     .btn.secondary{
       background: rgba(255,255,255,.10);
       border:1px solid var(--stroke);
       box-shadow:none;
     }
-
-    .grid{display:grid;gap:14px;grid-template-columns: 1.2fr .8fr;align-items:start}
-    @media (max-width:900px){.grid{grid-template-columns:1fr}.pillrow{justify-content:flex-start}}
-    .card{
-      background: var(--card);
-      border:1px solid var(--stroke);
+    .btn:active{transform:translateY(1px)}
+    .game{
+      position:fixed; inset:0;
+      padding-top:72px;
+      display:grid; place-items:center;
+    }
+    canvas{
+      width:min(920px, 96vw);
+      height:min(620px, 78vh);
       border-radius:22px;
-      padding:16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.25);
-    }
-    .hero{
-      padding:18px;
-      background:
-        radial-gradient(700px 260px at 20% 0%, rgba(255,77,141,.22), transparent 55%),
-        radial-gradient(520px 240px at 90% 30%, rgba(177,76,255,.18), transparent 55%),
-        var(--card);
-      border:1px solid var(--stroke);
-      border-radius:22px;
-    }
-    .hero h2{margin:0;font-size:22px;letter-spacing:.2px}
-    .hero p{margin:8px 0 0;color:var(--muted);line-height:1.55}
-    .steps{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    .step{
-      flex:1; min-width:190px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:18px;
-      padding:12px;
-    }
-    .step b{display:block;font-size:12px;color:var(--gold);letter-spacing:.5px}
-    .step span{display:block;margin-top:6px;color:var(--muted);font-size:13px;line-height:1.4}
-
-    .stageTitle{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .stageTitle h3{margin:0;font-size:16px}
-    .stageTitle .hint{font-size:12px;color:var(--muted)}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .input{
-      width:100%;
-      padding:12px 14px;border-radius:16px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.22);
-      color:var(--text); outline:none;
-      font-size:14px;
-    }
-    .input::placeholder{color:rgba(255,255,255,.45)}
-    .msg{margin-top:10px;color:var(--muted);line-height:1.55;font-size:13px;min-height:22px}
-
-    /* Memory game */
-    .board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-    @media (max-width:640px){ .board{grid-template-columns:repeat(2,1fr)} }
-    .tile{
-      position:relative;height:86px;border-radius:18px;
-      border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.18);
-      overflow:hidden; cursor:pointer;
-      display:grid;place-items:center;
-      font-size:30px; transition: transform .08s;
-    }
-    .tile:active{transform:scale(.99)}
-    .tile .cover{
-      position:absolute;inset:0;
-      background: linear-gradient(135deg, rgba(255,77,141,.35), rgba(177,76,255,.25));
-      display:grid;place-items:center;
-      font-size:16px;font-weight:800;letter-spacing:.8px;
-      color:rgba(255,255,255,.92);
-      transition: opacity .18s;
-    }
-    .tile.revealed .cover{opacity:0;pointer-events:none}
-    .tile.matched{outline:2px solid rgba(255,214,166,.35)}
-
-    /* Heart catch (FIXED + EASIER) */
-    .arena{
-      position:relative;
-      height:340px;
-      border-radius:20px;
       border:1px solid rgba(255,255,255,.14);
-      background: radial-gradient(500px 200px at 50% 0%, rgba(255,77,141,.18), transparent 60%),
-                  rgba(0,0,0,.18);
-      overflow:hidden;
-      margin-top:12px;
-      touch-action: manipulation;
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      touch-action: none;
     }
-    .heart{
-      position:absolute;
-      font-size:44px; /* bigger */
-      filter: drop-shadow(0 10px 16px rgba(255,77,141,.25));
+
+    /* Mobile controls */
+    .controls{
+      position:fixed;left:0;right:0;bottom:10px;z-index:12;
+      display:flex;justify-content:center;gap:12px;
+      pointer-events:none;
+    }
+    .pad{
+      pointer-events:auto;
+      width:min(170px, 42vw);
+      padding:14px 14px;border-radius:18px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900; letter-spacing:.5px;
       user-select:none;
-      cursor:pointer;
-      padding:6px; /* easier to tap */
-      line-height:1;
     }
-    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .stat{padding:8px 10px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);font-size:12px;color:var(--muted)}
-    .stat b{color:var(--text)}
+    .pad:active{transform:scale(.99)}
+    .tip{
+      position:fixed;left:14px;right:14px;bottom:74px;z-index:11;
+      max-width:960px;margin:0 auto;
+      color:var(--muted);font-size:12px;
+      text-align:center;
+      opacity:.95;
+    }
 
     /* Modal */
     .modal{
       position:fixed;inset:0;display:none;place-items:center;
-      background: rgba(0,0,0,.6);
-      z-index:30;
-      padding:18px;
+      background: rgba(0,0,0,.6); z-index:20; padding:16px;
     }
-    .modal .box{max-width:740px;width:100%}
-    .finalHead{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .type{
-      margin-top:10px;
-      font-size:16px;
-      line-height:1.75;
-      color:rgba(255,255,255,.92);
-      white-space:pre-wrap;
-      min-height:120px;
+    .card{
+      max-width:760px;width:100%;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      padding:16px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.3);
     }
+    .card h2{margin:0;font-size:18px}
+    .card p{margin:10px 0 0;color:var(--muted);line-height:1.6}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
     .tiny{font-size:12px;color:var(--muted);margin-top:10px}
-    canvas#rain{position:fixed;inset:0;pointer-events:none;display:none;z-index:25}
+
+    canvas#rain{position:fixed;inset:0;display:none;pointer-events:none;z-index:19}
   </style>
 </head>
 <body>
   <canvas id="rain"></canvas>
 
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="logo">💘</div>
-        <div>
-          <h1>İzgi için Sevgililer Günü</h1>
-          <div class="sub">Bansko • Binicilik • Sinema • Kayak • Yemek • Roma LUISS 🇮🇹🎓</div>
-        </div>
-      </div>
-      <div class="pillrow">
-        <span class="pill">Aşama: <b id="stagePill">0/3</b></span>
-        <button class="btn secondary" id="musicBtn">🔈 Müzik</button>
-        <button class="btn" id="startBtn">Başla ✨</button>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">⛷️</div>
+      <div>
+        <p class="title">Bansko Slalom</p>
+        <div class="sub">Kapılardan geç • Engellerden kaç • Level atla • Finalde sürpriz 💘</div>
       </div>
     </div>
-
-    <div class="grid">
-      <div class="hero">
-        <h2>Minik bir oyun… ama hisler gerçek 💗</h2>
-        <p>İzgi, bu sayfayı açtıysan… bugün küçük bir maceraya giriyorsun. 3 aşamayı geçince finalde sürpriz var.</p>
-        <div class="steps">
-          <div class="step"><b>1) Şifre</b><span>Gizli bir anahtar 💌</span></div>
-          <div class="step"><b>2) Anılar</b><span>4 çifti eşleştir</span></div>
-          <div class="step"><b>3) Kalp Yakala</b><span>Kolay mod 💘</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="stageTitle">
-          <h3>Durum</h3>
-          <div class="hint" id="statusHint">Başla’ya basınca oyun açılır.</div>
-        </div>
-        <div class="msg" id="statusMsg"></div>
-        <div class="row" style="margin-top:12px">
-          <button class="btn secondary" id="resetBtn">Sıfırla</button>
-        </div>
-        <div class="tiny">Not: Telefonda müzik otomatik başlamaz; “Başla” ile başlatıyoruz.</div>
-      </div>
-    </div>
-
-    <!-- Stage 1 (no hints/answers shown) -->
-    <div class="card" id="stage1" style="margin-top:14px; display:none">
-      <div class="stageTitle">
-        <h3>1) Şifreyi Gir 🔐</h3>
-        <div class="hint">Sadece senin bileceğin bir şey 💌</div>
-      </div>
-      <div class="msg">Şifreyi yaz ve devam et 💘</div>
-      <div class="row" style="margin-top:12px">
-        <input class="input" id="passInput" placeholder="Şifre..." />
-        <button class="btn" id="passBtn">Onayla</button>
-      </div>
-      <div class="msg" id="passMsg"></div>
-    </div>
-
-    <!-- Stage 2 -->
-    <div class="card" id="stage2" style="margin-top:14px; display:none">
-      <div class="stageTitle">
-        <h3>2) Anıları Eşleştir 🧩</h3>
-        <div class="hint"><span id="matchCount">0</span>/4 bulundu</div>
-      </div>
-      <div class="msg">Minik dünyanız: Bansko ⛷️ • Binicilik 🏇 • Sinema 🍿 • Roma LUISS 🇮🇹🎓</div>
-      <div class="board" id="board"></div>
-      <div class="msg" id="boardMsg"></div>
-    </div>
-
-    <!-- Stage 3 (easier) -->
-    <div class="card" id="stage3" style="margin-top:14px; display:none">
-      <div class="stageTitle">
-        <h3>3) Kalp Yakala 💖</h3>
-        <div class="hint">20 saniyede <b>8</b> kalp</div>
-      </div>
-      <div class="arena" id="arena"></div>
-      <div class="stats">
-        <div class="stat">Süre: <b id="timeLeft">20</b>s</div>
-        <div class="stat">Toplanan: <b id="caught">0</b>/8</div>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <button class="btn" id="catchStart">Başlat 🚀</button>
-      </div>
-      <div class="msg" id="catchMsg"></div>
+    <div class="hud">
+      <div class="pill">Skor: <b id="score">0</b></div>
+      <div class="pill">Level: <b id="level">1</b></div>
+      <div class="pill">Can: <b id="lives">3</b></div>
+      <button class="btn secondary" id="musicBtn">🔈 Müzik</button>
+      <button class="btn" id="startBtn">Başlat</button>
     </div>
   </div>
 
-  <!-- Final Modal -->
+  <div class="game">
+    <canvas id="c" width="920" height="620"></canvas>
+  </div>
+
+  <div class="tip" id="tip">Telefon: alttaki ◀ ▶ ile kay. Bilgisayar: ← →. Kapılardan (kırmızı/mavi) geç, çamlara çarpma.</div>
+
+  <div class="controls">
+    <div class="pad" id="leftPad">◀ SOL</div>
+    <div class="pad" id="rightPad">SAĞ ▶</div>
+  </div>
+
   <div class="modal" id="modal">
-    <div class="card box">
-      <div class="finalHead">
-        <h3 style="margin:0">Final 💘</h3>
-        <div class="row">
-          <button class="btn secondary" id="againBtn">Tekrar Oyna</button>
-          <button class="btn" id="closeBtn">Kapat</button>
-        </div>
+    <div class="card">
+      <h2 id="modalTitle">Bansko Slalom</h2>
+      <p id="modalText"></p>
+      <div class="row">
+        <button class="btn" id="playAgain">Tekrar Oyna</button>
+        <button class="btn secondary" id="closeModal">Kapat</button>
       </div>
-      <div class="type" id="type"></div>
-      <div class="tiny">Şarkı: repoya <b>song.mp3</b> yüklersen (root), Başla’ya basınca çalar.</div>
+      <div class="tiny">Şarkı için repoya <b>song.mp3</b> yüklediysen, “Müzik” butonuyla açılacak (telefon kuralı).</div>
     </div>
   </div>
 
+  <!-- optional music (put song.mp3 in repo root) -->
   <audio id="bgm" loop>
     <source src="song.mp3" type="audio/mpeg" />
   </audio>
 
 <script>
 (() => {
+  // ====== Personalization ======
   const GIRL_NAME = "İzgi";
-
-  // Gizli şifreler (sayfada yazmıyor)
-  const MEET_PASSWORDS = [
-    "02022025","02/02/2025","2/2/2025","2 şubat 2025","2 subat 2025","02.02.2025","2.2.2025",
-    "bansko", "bansko kayak merkezi"
-  ];
+  const FINAL_SCORE_TO_WIN = 120; // final açma eşiği (istersen düşürürüz)
 
   const FINAL_TEXT =
-`İzgi,
+`İzgi 💘
 
-Bansko’da başlayan o an… benim için “tamam” anıydı.
-Senin yanındayken dünya daha yumuşak: daha güvenli, daha güzel.
+Bansko’da birlikte kaydığımız o an…
+benim için hâlâ en güzel “başlangıç”lardan.
 
-Sen bal gibi dünya tatlısısın…
-ve hep destekçi olman benim için ayrı bir güç. 💗
-
-Ben de sana hep ince düşüneyim:
-Sinema gibi birlikte izleyelim,
-kayak gibi birlikte kayalım,
-yemek gibi birlikte paylaşalım,
-ve binicilik gibi hep gururla, hep güçlü devam edelim. 🏇
-
-Ve bir gün…
-Roma’da LUISS hayalini birlikte kutlayalım.
-Sen başarınca ben de mutlu oluyorum. Hep yanındayım. 🇮🇹💘
+Senin hayallerin de benim için oyun değil — gerçek.
+Roma’da LUISS master hedefini birlikte kutlayacağız. 🇮🇹🎓
 
 Sevgililer günün kutlu olsun.
-İyi ki varsın. 💘`;
+İyi ki varsın. 💗`;
 
-  const $ = (id) => document.getElementById(id);
+  // ====== Canvas setup ======
+  const canvas = document.getElementById("c");
+  const ctx = canvas.getContext("2d");
 
-  const startBtn = $("startBtn");
-  const resetBtn = $("resetBtn");
-  const musicBtn = $("musicBtn");
+  const scoreEl = document.getElementById("score");
+  const levelEl = document.getElementById("level");
+  const livesEl = document.getElementById("lives");
+  const startBtn = document.getElementById("startBtn");
+  const musicBtn = document.getElementById("musicBtn");
+  const tip = document.getElementById("tip");
 
-  const stagePill = $("stagePill");
-  const statusHint = $("statusHint");
-  const statusMsg = $("statusMsg");
+  const leftPad = document.getElementById("leftPad");
+  const rightPad = document.getElementById("rightPad");
 
-  const s1 = $("stage1");
-  const s2 = $("stage2");
-  const s3 = $("stage3");
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalText = document.getElementById("modalText");
+  const playAgain = document.getElementById("playAgain");
+  const closeModal = document.getElementById("closeModal");
 
-  const passInput = $("passInput");
-  const passBtn = $("passBtn");
-  const passMsg = $("passMsg");
+  const bgm = document.getElementById("bgm");
 
-  const board = $("board");
-  const boardMsg = $("boardMsg");
-  const matchCount = $("matchCount");
+  // Heart rain
+  const rainCanvas = document.getElementById("rain");
+  const rctx = rainCanvas.getContext("2d");
+  let rainOn = false, particles = [], rainRAF = null;
 
-  const arena = $("arena");
-  const catchStart = $("catchStart");
-  const caughtEl = $("caught");
-  const timeLeftEl = $("timeLeft");
-  const catchMsg = $("catchMsg");
-
-  const modal = $("modal");
-  const closeBtn = $("closeBtn");
-  const againBtn = $("againBtn");
-  const typeEl = $("type");
-
-  const bgm = $("bgm");
-
-  const rainCanvas = $("rain");
-  const ctx = rainCanvas.getContext("2d");
-
-  // ===== State =====
-  let stage = 0;
-  let musicOn = false;
-
-  // memory
-  let openTiles = [];
-  let matched = 0;
-  const TOTAL_PAIRS = 4;
-
-  // catch (EASY)
-  let catchRunning = false;
-  let caught = 0;
-  let timeLeft = 20;
-  const CATCH_GOAL = 8;
-  let spawnTimer = null;
-  let countdownTimer = null;
-
-  // ===== Helpers =====
-  const normalize = (s) =>
-    (s || "")
-      .toLowerCase()
-      .replaceAll("ı","i")
-      .replaceAll("ş","s")
-      .replaceAll("ğ","g")
-      .replaceAll("ü","u")
-      .replaceAll("ö","o")
-      .replaceAll("ç","c")
-      .replace(/\s+/g," ")
-      .trim();
-
-  const shuffle = (arr) => {
-    const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i],a[j]] = [a[j],a[i]];
-    }
-    return a;
-  };
-
-  const setStage = (n) => {
-    stage = n;
-    stagePill.textContent = `${stage}/3`;
-    s1.style.display = stage >= 1 ? "block" : "none";
-    s2.style.display = stage >= 2 ? "block" : "none";
-    s3.style.display = stage >= 3 ? "block" : "none";
-
-    if(stage === 0){
-      statusHint.textContent = "Başla’ya basınca oyun açılır.";
-      statusMsg.textContent = "";
-    }
-    if(stage === 1){
-      statusHint.textContent = "Şifreyi girince devam eder 💌";
-      statusMsg.textContent = `Hoş geldin ${GIRL_NAME} 💗`;
-    }
-    if(stage === 2){
-      statusHint.textContent = `${TOTAL_PAIRS} eşleşme yapınca 3. aşama açılır.`;
-      statusMsg.textContent = "Kartları eşleştir 💗";
-    }
-    if(stage === 3){
-      statusHint.textContent = "Kalpleri topla, final açılır 💘";
-      statusMsg.textContent = "Kolay mod açık 😄";
-    }
-  };
-
-  const safePlayMusic = async () => {
-    try{
-      await bgm.play();
-      musicOn = true;
-      musicBtn.textContent = "🔊 Müzik";
-    }catch(e){
-      musicOn = false;
-      musicBtn.textContent = "🔈 Müzik";
-    }
-  };
-
-  const toggleMusic = async () => {
-    if(musicOn){
-      bgm.pause();
-      musicOn = false;
-      musicBtn.textContent = "🔈 Müzik";
-    }else{
-      await safePlayMusic();
-    }
-  };
-
-  // ===== Stage 1 =====
-  const checkPassword = () => {
-    const n = normalize(passInput.value);
-    const ok = MEET_PASSWORDS.some(p => normalize(p) === n);
-    if(ok){
-      passMsg.textContent = "Doğru 💘";
-      setTimeout(() => { initMemory(); setStage(2); }, 450);
-    }else{
-      passMsg.textContent = "Olmadı 🙈 Tekrar dene.";
-    }
-  };
-
-  // ===== Stage 2 =====
-  function initMemory(){
-    board.innerHTML = "";
-    boardMsg.textContent = "";
-    openTiles = [];
-    matched = 0;
-    matchCount.textContent = "0";
-
-    const pairs = [
-      {k:"bansko", icon:"⛷️"},
-      {k:"horse",  icon:"🏇"},
-      {k:"cinema", icon:"🍿"},
-      {k:"luiss",  icon:"🇮🇹🎓"},
-    ];
-
-    const tiles = shuffle([...pairs, ...pairs]);
-    tiles.forEach(t => {
-      const el = document.createElement("div");
-      el.className = "tile";
-      el.dataset.key = t.k;
-      el.innerHTML = `<div aria-hidden="true">${t.icon}</div><div class="cover">AÇ</div>`;
-      el.addEventListener("click", () => onTile(el));
-      board.appendChild(el);
-    });
-  }
-
-  function onTile(el){
-    if(el.classList.contains("matched")) return;
-    if(el.classList.contains("revealed")) return;
-    if(openTiles.length >= 2) return;
-
-    el.classList.add("revealed");
-    openTiles.push(el);
-
-    if(openTiles.length === 2){
-      const [a,b] = openTiles;
-      const same = a.dataset.key === b.dataset.key;
-      if(same){
-        a.classList.add("matched");
-        b.classList.add("matched");
-        openTiles = [];
-        matched++;
-        matchCount.textContent = String(matched);
-
-        boardMsg.textContent =
-          matched === 1 ? "Tatlı 💗" :
-          matched === 2 ? "Devam 😄" :
-          matched === 3 ? "Az kaldı 🥰" :
-          "Tamam 💘";
-
-        if(matched >= TOTAL_PAIRS){
-          setTimeout(() => setStage(3), 500);
-        }
-      }else{
-        setTimeout(() => {
-          a.classList.remove("revealed");
-          b.classList.remove("revealed");
-          openTiles = [];
-        }, 550);
-      }
-    }
-  }
-
-  // ===== Stage 3 (FIXED) =====
-  function resetCatch(){
-    catchRunning = false;
-    caught = 0;
-    timeLeft = 20;
-    caughtEl.textContent = "0";
-    timeLeftEl.textContent = "20";
-    catchMsg.textContent = "";
-    arena.innerHTML = "";
-    if(spawnTimer) clearInterval(spawnTimer);
-    if(countdownTimer) clearInterval(countdownTimer);
-  }
-
-  function spawnHeart(){
-    const el = document.createElement("div");
-    el.className = "heart";
-    el.textContent = (Math.random() < 0.25) ? "💘" : "💗";
-
-    // easier tap: keep inside area
-    const maxX = Math.max(10, arena.clientWidth - 70);
-    const x = 10 + Math.random() * maxX;
-    el.style.left = x + "px";
-    el.style.top  = "-60px";
-
-    // slower fall
-    const speed = 1.2 + Math.random() * 1.2;
-    let y = -60;
-    let alive = true;
-
-    const tick = () => {
-      if(!alive) return;
-      if(!catchRunning){ el.remove(); return; }
-      y += speed;
-      el.style.top = y + "px";
-      if(y > arena.clientHeight + 80){
-        el.remove();
-        alive = false;
-        return;
-      }
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-
-    // pointer events for better mobile tapping
-    const hit = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if(!catchRunning) return;
-      caught++;
-      caughtEl.textContent = String(caught);
-      el.remove();
-      alive = false;
-      if(caught >= CATCH_GOAL) finishGame();
-    };
-    el.addEventListener("pointerdown", hit, {passive:false});
-    el.addEventListener("click", hit);
-
-    arena.appendChild(el);
-  }
-
-  function startCatch(){
-    if(catchRunning) return;
-    resetCatch();
-    catchRunning = true;
-    catchMsg.textContent = "Kalplere dokun 💗";
-
-    // fewer hearts, slower spawn
-    spawnTimer = setInterval(spawnHeart, 600);
-
-    countdownTimer = setInterval(() => {
-      timeLeft--;
-      timeLeftEl.textContent = String(timeLeft);
-      if(timeLeft <= 0){
-        endCatchFail();
-      }
-    }, 1000);
-  }
-
-  function endCatchFail(){
-    catchRunning = false;
-    if(spawnTimer) clearInterval(spawnTimer);
-    if(countdownTimer) clearInterval(countdownTimer);
-    catchMsg.textContent = "Olmadıysa sorun değil 😄 Tekrar dene!";
-  }
-
-  // ===== Final =====
-  function typeWriter(text){
-    typeEl.textContent = "";
-    let i = 0;
-    const t = setInterval(() => {
-      typeEl.textContent += text[i] || "";
-      i++;
-      if(i >= text.length) clearInterval(t);
-    }, 18);
-  }
-
-  function openFinal(){
-    modal.style.display = "grid";
-    typeWriter(FINAL_TEXT);
-    startHeartRain(340);
-  }
-
-  function closeFinal(){
-    modal.style.display = "none";
-    stopHeartRain();
-  }
-
-  function finishGame(){
-    catchRunning = false;
-    if(spawnTimer) clearInterval(spawnTimer);
-    if(countdownTimer) clearInterval(countdownTimer);
-    catchMsg.textContent = "Tamam 💘";
-    setTimeout(openFinal, 450);
-  }
-
-  // ===== Heart rain =====
-  let rainOn = false;
-  let particles = [];
-  let rainRAF = null;
-
-  function resizeCanvas(){
+  function resizeRain(){
     rainCanvas.width = window.innerWidth * devicePixelRatio;
     rainCanvas.height = window.innerHeight * devicePixelRatio;
     rainCanvas.style.width = window.innerWidth + "px";
     rainCanvas.style.height = window.innerHeight + "px";
-    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    rctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
   }
-
-  function startHeartRain(count){
-    resizeCanvas();
+  function startHeartRain(count=280){
+    resizeRain();
     rainCanvas.style.display = "block";
     rainOn = true;
     particles = [];
@@ -654,62 +239,505 @@ Sevgililer günün kutlu olsun.
     }
     const loop = () => {
       if(!rainOn) return;
-      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+      rctx.clearRect(0,0,window.innerWidth,window.innerHeight);
       for(const p of particles){
-        p.x += p.vx;
-        p.y += p.vy;
-        p.r += 0.02;
-        if(p.y > window.innerHeight + 40){
-          p.y = -40;
-          p.x = Math.random()*window.innerWidth;
-        }
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.r);
-        ctx.font = `${p.s}px system-ui`;
-        ctx.fillText(p.w, 0, 0);
-        ctx.restore();
+        p.x += p.vx; p.y += p.vy; p.r += 0.02;
+        if(p.y > window.innerHeight + 40){ p.y = -40; p.x = Math.random()*window.innerWidth; }
+        rctx.save();
+        rctx.translate(p.x, p.y);
+        rctx.rotate(p.r);
+        rctx.font = `${p.s}px system-ui`;
+        rctx.fillText(p.w, 0, 0);
+        rctx.restore();
       }
       rainRAF = requestAnimationFrame(loop);
     };
     loop();
   }
-
   function stopHeartRain(){
     rainOn = false;
     rainCanvas.style.display = "none";
     if(rainRAF) cancelAnimationFrame(rainRAF);
   }
 
-  // ===== Controls =====
-  function resetAll(){
-    closeFinal();
-    resetCatch();
-    passInput.value = "";
-    passMsg.textContent = "";
-    boardMsg.textContent = "";
-    setStage(0);
-    statusMsg.textContent = "";
+  // ====== Game state ======
+  const W = canvas.width, H = canvas.height;
+
+  const player = {
+    x: W/2, y: H*0.78,
+    w: 32, h: 40,
+    vx: 0,
+    maxSpeed: 6.2,
+  };
+
+  let running = false;
+  let score = 0;
+  let level = 1;
+  let lives = 3;
+
+  let t = 0;
+  let laneCenter = W/2;      // slalom path center
+  let laneWidth = 250;       // gates span
+  let speed = 3.2;           // world scroll speed
+  let spawnCd = 0;
+
+  let objects = []; // gates + trees + bonus
+  let inputLeft = false;
+  let inputRight = false;
+
+  function resetGame(){
+    running = false;
+    score = 0;
+    level = 1;
+    lives = 3;
+    t = 0;
+    laneCenter = W/2;
+    laneWidth = 250;
+    speed = 3.2;
+    spawnCd = 0;
+    objects = [];
+    player.x = W/2;
+    player.vx = 0;
+    syncHUD();
+    tip.textContent = "Başlat’a bas. Kapılardan (kırmızı/mavi) geç, çamlara çarpma.";
+  }
+
+  function syncHUD(){
+    scoreEl.textContent = Math.floor(score);
+    levelEl.textContent = level;
+    livesEl.textContent = lives;
+  }
+
+  function showModal(title, text){
+    modalTitle.textContent = title;
+    modalText.textContent = text;
+    modal.style.display = "grid";
+  }
+  function hideModal(){
+    modal.style.display = "none";
+  }
+
+  // ====== Spawning ======
+  function spawnGateRow(){
+    // slalom center wiggles
+    laneCenter += Math.sin(t/40) * 14 + (Math.random()-0.5)*30;
+    laneCenter = Math.max(160, Math.min(W-160, laneCenter));
+
+    const gap = Math.max(110, laneWidth - level*12);
+    const leftX = laneCenter - gap/2;
+    const rightX = laneCenter + gap/2;
+
+    // Gate posts
+    objects.push({type:"gateL", x:leftX, y:-40, r:16, hit:false});
+    objects.push({type:"gateR", x:rightX, y:-40, r:16, hit:false});
+
+    // One random obstacle (tree) near edge
+    if(Math.random() < 0.65){
+      const side = Math.random() < 0.5 ? -1 : 1;
+      const ox = laneCenter + side*(gap/2 + 70 + Math.random()*80);
+      objects.push({type:"tree", x:ox, y:-40, r:18, hit:false});
+    }
+
+    // Sometimes a bonus heart in the middle
+    if(Math.random() < 0.28){
+      objects.push({type:"heart", x: laneCenter + (Math.random()-0.5)*90, y:-40, r:18, hit:false});
+    }
+  }
+
+  // ====== Collisions ======
+  function dist(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.hypot(dx,dy); }
+
+  function collideCircle(px, py, pr, obj){
+    return Math.hypot(px-obj.x, py-obj.y) < (pr + obj.r);
+  }
+
+  function damage(){
+    lives--;
+    syncHUD();
+    // tiny screen flash
+    flash = 1;
+    if(lives <= 0){
+      endGame(false);
+    }
+  }
+
+  function endGame(won){
+    running = false;
+    if(won){
+      startHeartRain(320);
+      showModal("Final 💘", FINAL_TEXT);
+    } else {
+      showModal("Oyun Bitti 😄", `Skor: ${Math.floor(score)}\n\nTekrar dener misin? Bu sefer ${GIRL_NAME} için kazan 💘`);
+    }
+  }
+
+  // ====== Rendering ======
+  let flash = 0;
+
+  function drawBackground(){
+    // snow gradient
+    const g = ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,"rgba(255,255,255,.08)");
+    g.addColorStop(1,"rgba(0,0,0,.18)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,W,H);
+
+    // soft vignette
+    ctx.fillStyle = "rgba(0,0,0,.12)";
+    ctx.fillRect(0,0,W,H);
+  }
+
+  function drawSlopeLines(){
+    ctx.save();
+    ctx.globalAlpha = 0.35;
+    ctx.strokeStyle = "rgba(255,255,255,.22)";
+    ctx.lineWidth = 2;
+    for(let i=0;i<10;i++){
+      const y = (i*80 + (t*speed)%80);
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y+30);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawPlayer(){
+    // skier body
+    ctx.save();
+    ctx.translate(player.x, player.y);
+    ctx.fillStyle = "rgba(255,255,255,.9)";
+    ctx.beginPath();
+    ctx.roundRect(-player.w/2, -player.h/2, player.w, player.h, 10);
+    ctx.fill();
+
+    // scarf
+    ctx.fillStyle = "rgba(255,77,141,.85)";
+    ctx.fillRect(-player.w/2, -player.h/2 + 10, player.w, 6);
+
+    // skis
+    ctx.strokeStyle = "rgba(255,214,166,.75)";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-18, player.h/2 - 2);
+    ctx.lineTo(-30, player.h/2 + 12);
+    ctx.moveTo(18, player.h/2 - 2);
+    ctx.lineTo(30, player.h/2 + 12);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawObj(o){
+    if(o.type === "gateL" || o.type === "gateR"){
+      const isL = o.type === "gateL";
+      ctx.save();
+      ctx.translate(o.x, o.y);
+      // pole
+      ctx.strokeStyle = isL ? "rgba(255,90,90,.95)" : "rgba(90,170,255,.95)";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(0,-18);
+      ctx.lineTo(0,22);
+      ctx.stroke();
+      // flag
+      ctx.fillStyle = isL ? "rgba(255,90,90,.75)" : "rgba(90,170,255,.75)";
+      ctx.beginPath();
+      ctx.moveTo(0,-10);
+      ctx.lineTo(isL ? -26 : 26, -2);
+      ctx.lineTo(0, 6);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+      return;
+    }
+    if(o.type === "tree"){
+      ctx.save();
+      ctx.translate(o.x, o.y);
+      ctx.fillStyle = "rgba(60, 200, 140, .75)";
+      ctx.beginPath();
+      ctx.moveTo(0,-24);
+      ctx.lineTo(-18,14);
+      ctx.lineTo(18,14);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,.35)";
+      ctx.beginPath();
+      ctx.arc(0,18,6,0,Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+      return;
+    }
+    if(o.type === "heart"){
+      ctx.save();
+      ctx.translate(o.x, o.y);
+      ctx.font = "28px system-ui";
+      ctx.fillText("💘", -14, 10);
+      ctx.restore();
+      return;
+    }
+  }
+
+  function drawFlash(){
+    if(flash <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = 0.18 * flash;
+    ctx.fillStyle = "rgba(255,77,141,1)";
+    ctx.fillRect(0,0,W,H);
+    ctx.restore();
+  }
+
+  // ====== Update loop ======
+  function update(){
+    if(!running) return;
+
+    // difficulty scaling
+    level = 1 + Math.floor(score / 40);
+    level = Math.min(level, 7);
+    speed = 3.2 + level*0.55;
+    laneWidth = 250 - level*10;
+    player.maxSpeed = 6.2 + level*0.2;
+
+    // input
+    const accel = 0.55;
+    if(inputLeft && !inputRight) player.vx -= accel;
+    if(inputRight && !inputLeft) player.vx += accel;
+    if(!inputLeft && !inputRight) player.vx *= 0.85;
+
+    player.vx = Math.max(-player.maxSpeed, Math.min(player.maxSpeed, player.vx));
+    player.x += player.vx;
+
+    // boundaries
+    const margin = 48;
+    if(player.x < margin){ player.x = margin; player.vx = 0; }
+    if(player.x > W-margin){ player.x = W-margin; player.vx = 0; }
+
+    // spawn rows
+    spawnCd -= 1;
+    if(spawnCd <= 0){
+      spawnGateRow();
+      spawnCd = Math.max(16, 34 - level*2); // more frequent with level
+    }
+
+    // move objects
+    for(const o of objects) o.y += speed;
+
+    // collisions
+    const pr = 16;
+    for(const o of objects){
+      if(o.hit) continue;
+
+      // score gates: pass between them (simple: when reaching player.y line)
+      if((o.type === "gateL" || o.type === "gateR") && o.y > player.y && !o.hit){
+        // only count once per pair by checking both posts close in y
+        // mark hit to avoid repeats
+        o.hit = true;
+      }
+
+      // hit trees
+      if(o.type === "tree"){
+        if(collideCircle(player.x, player.y, pr, o)){
+          o.hit = true;
+          damage();
+        }
+      }
+
+      // collect heart
+      if(o.type === "heart"){
+        if(collideCircle(player.x, player.y, pr, o)){
+          o.hit = true;
+          score += 8; // bonus
+        }
+      }
+    }
+
+    // gate scoring: count each gate row when both posts pass player line and player was within gap
+    // We'll detect by finding pairs that crossed line this frame:
+    // Simple approach: score for each "gateL" that crosses below player and near a "gateR"
+    // Keep a marker on gateL only.
+    for(const o of objects){
+      if(o.type !== "gateL" || o.scored) continue;
+      if(o.y >= player.y){
+        // find matching right post close in y
+        const right = objects.find(r => r.type==="gateR" && !r.scored && Math.abs(r.y - o.y) < 6);
+        if(right){
+          o.scored = true; right.scored = true;
+          const gapMin = Math.min(o.x, right.x);
+          const gapMax = Math.max(o.x, right.x);
+          if(player.x > gapMin && player.x < gapMax){
+            score += 10;
+          } else {
+            // missed gate: small penalty + mild wobble
+            score = Math.max(0, score - 3);
+          }
+        }
+      }
+    }
+
+    // cleanup
+    objects = objects.filter(o => o.y < H + 80);
+
+    // score tick
+    score += 0.08 * level;
+    syncHUD();
+
+    // win condition
+    if(score >= FINAL_SCORE_TO_WIN){
+      endGame(true);
+    }
+
+    // flash decay
+    flash *= 0.9;
+  }
+
+  function render(){
+    ctx.clearRect(0,0,W,H);
+    drawBackground();
+    drawSlopeLines();
+
+    // draw lane hint
+    ctx.save();
+    ctx.globalAlpha = 0.22;
+    ctx.strokeStyle = "rgba(255,255,255,.25)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(laneCenter - laneWidth/2, 0);
+    ctx.lineTo(laneCenter - laneWidth/2 + 30, H);
+    ctx.moveTo(laneCenter + laneWidth/2, 0);
+    ctx.lineTo(laneCenter + laneWidth/2 + 30, H);
+    ctx.stroke();
+    ctx.restore();
+
+    // objects
+    for(const o of objects) drawObj(o);
+
+    drawPlayer();
+    drawFlash();
+
+    // overlay text when not running
+    if(!running){
+      ctx.save();
+      ctx.fillStyle = "rgba(0,0,0,.25)";
+      ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = "rgba(255,255,255,.95)";
+      ctx.textAlign = "center";
+      ctx.font = "700 34px system-ui";
+      ctx.fillText("Bansko Slalom", W/2, H/2 - 34);
+      ctx.font = "600 16px system-ui";
+      ctx.fillStyle = "rgba(255,255,255,.78)";
+      ctx.fillText("Başlat'a bas • Kapılardan geç • Çamlara çarpma", W/2, H/2 + 6);
+      ctx.fillText("Telefon: alttaki ◀ ▶ • PC: ← →", W/2, H/2 + 30);
+      ctx.restore();
+    }
+  }
+
+  function loop(){
+    update();
+    render();
+    requestAnimationFrame(loop);
+  }
+
+  // ====== Input ======
+  function setPad(el, on){
+    el.style.background = on ? "rgba(255,255,255,.16)" : "rgba(255,255,255,.10)";
+  }
+
+  const down = (side) => (e) => { e.preventDefault(); e.stopPropagation();
+    if(side==="L"){ inputLeft=true; setPad(leftPad,true); }
+    if(side==="R"){ inputRight=true; setPad(rightPad,true); }
+  };
+  const up = (side) => (e) => { e.preventDefault(); e.stopPropagation();
+    if(side==="L"){ inputLeft=false; setPad(leftPad,false); }
+    if(side==="R"){ inputRight=false; setPad(rightPad,false); }
+  };
+
+  leftPad.addEventListener("pointerdown", down("L"), {passive:false});
+  leftPad.addEventListener("pointerup", up("L"), {passive:false});
+  leftPad.addEventListener("pointercancel", up("L"), {passive:false});
+  leftPad.addEventListener("pointerleave", up("L"), {passive:false});
+
+  rightPad.addEventListener("pointerdown", down("R"), {passive:false});
+  rightPad.addEventListener("pointerup", up("R"), {passive:false});
+  rightPad.addEventListener("pointercancel", up("R"), {passive:false});
+  rightPad.addEventListener("pointerleave", up("R"), {passive:false});
+
+  window.addEventListener("keydown", (e) => {
+    if(e.key === "ArrowLeft") inputLeft = true;
+    if(e.key === "ArrowRight") inputRight = true;
+  });
+  window.addEventListener("keyup", (e) => {
+    if(e.key === "ArrowLeft") inputLeft = false;
+    if(e.key === "ArrowRight") inputRight = false;
+  });
+
+  // ====== Buttons ======
+  async function playMusic(){
+    try{
+      await bgm.play();
+      musicBtn.textContent = "🔊 Müzik";
+      return true;
+    }catch{ return false; }
+  }
+  function stopMusic(){
+    bgm.pause();
+    musicBtn.textContent = "🔈 Müzik";
   }
 
   startBtn.addEventListener("click", async () => {
-    setStage(1);
-    await safePlayMusic(); // allowed by user gesture
-    passInput.focus();
+    stopHeartRain();
+    hideModal();
+    // user gesture -> allow audio
+    await playMusic();
+    if(!running){
+      running = true;
+      tip.textContent = "Kapılardan geç! 💙❤️  Kalp bonuslarını topla 💘";
+    }
   });
 
-  resetBtn.addEventListener("click", resetAll);
-  musicBtn.addEventListener("click", toggleMusic);
-  passBtn.addEventListener("click", checkPassword);
-  passInput.addEventListener("keydown", (e) => { if(e.key === "Enter") checkPassword(); });
+  musicBtn.addEventListener("click", async () => {
+    if(bgm.paused){
+      const ok = await playMusic();
+      if(!ok) tip.textContent = "Müzik başlamadıysa: telefon sessiz modda olabilir. Yine de oyun çalışır.";
+    }else{
+      stopMusic();
+    }
+  });
 
-  catchStart.addEventListener("click", startCatch);
+  playAgain.addEventListener("click", () => {
+    stopHeartRain();
+    hideModal();
+    resetGame();
+    running = true;
+    tip.textContent = "Hadi bir daha! Bu sefer daha yüksek skor 💘";
+  });
 
-  closeBtn.addEventListener("click", closeFinal);
-  againBtn.addEventListener("click", () => { closeFinal(); resetAll(); });
+  closeModal.addEventListener("click", () => {
+    stopHeartRain();
+    hideModal();
+  });
 
-  resetAll();
+  window.addEventListener("resize", () => { if(rainOn) resizeRain(); });
+
+  // Start
+  resetGame();
+  loop();
+
+  // Polyfill for roundRect (older browsers)
+  if(!CanvasRenderingContext2D.prototype.roundRect){
+    CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+      r = Math.min(r, w/2, h/2);
+      this.beginPath();
+      this.moveTo(x+r,y);
+      this.arcTo(x+w,y,x+w,y+h,r);
+      this.arcTo(x+w,y+h,x,y+h,r);
+      this.arcTo(x,y+h,x,y,r);
+      this.arcTo(x,y,x+w,y,r);
+      this.closePath();
+      return this;
+    };
+  }
 })();
 </script>
 </body>
 </html>
+
